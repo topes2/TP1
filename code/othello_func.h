@@ -19,6 +19,7 @@ char* init_board(char tboard[9][10]){ // inserir as primerias peças para o jogo
     return(tboard);
 }
 
-char play( board, line, col, color ){
-    
+/*char play( board, line, col, color ){
+    int i=0;   
 }
+*/
