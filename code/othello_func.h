@@ -20,9 +20,61 @@ char* init_board(char tboard[9][10]){ // inserir as primerias peças para o jogo
 }
 
 char check(char board[9][10]){
+}
+int play(char board[9][9],int lin,int col,char player)
+{
+    char p2;
+    
+    if( player == 'x')
+        p2 = 'o';
+
+    //escolher direção//
+    if (board[lin][col] == '.')
+    {
+        if (board[lin][col+1] == p2)    //jogada possivel direção Este
+            for (int j = col+1; j<9 ; j++){
+                if(board[lin][j] == player)
+                    break;
+            board[lin][j] = player;
+            }
+            
+        if (board[lin][col-1] == p2)   // jogada possivel direção Oeste
+            dir[1] == 1;
+        if (board[lin-1][col] == p2)   // jogada possivel direção Norte
+            dir[2] == 1;
+        if (board[lin+1][col] == p2)   // jogada possivel direção Sul
+            dir[3] == 1;
+        if (board[lin-1][col+1] == p2) // jogada possivel direção NordEste
+            dir[4] == 1;
+        if (board[lin-1][col-1] == p2) // jogada possivel direção NorOeste
+            dir[5] == 1;
+        if (board[lin+1][col+1] == p2) // jogada possivel direção SudEste
+            dir[6] == 1;
+        if (board[lin+1][col-1] == p2) // jogada possivel direção SuldOeste
+            dir[7] == 1;
+    }
+    
+    
+    
+
+
 
 }
+int jogada(char board[9][9]){
+    char col;
+    int lin,coluna ,cor, i;
 
+
+    printf("Insira a cordenada da jogada(separado por espaço) ");
+    scanf(" %c %d",&col,&lin);
+
+    coluna= decode(col);
+
+    play(board, lin, col,cor);
+
+
+
+}
 int decode(char letra){
     if (letra == 'a' || letra == 'A')
         return 1;
