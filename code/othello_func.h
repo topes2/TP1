@@ -19,7 +19,27 @@ char* init_board(char tboard[9][10]){ // inserir as primerias peças para o jogo
     return(tboard);
 }
 
-/*char play( board, line, col, color ){
-    int i=0;   
+char check(char board[9][10]){
+
 }
-*/
+
+int decode(char letra){
+    if (letra == 'a' || letra == 'A')
+        return 1;
+    else if (letra == 'b' || letra == 'B')
+        return 2;
+    else if (letra == 'c' || letra == 'C') 
+        return 3;
+    else if (letra == 'd' || letra == 'D')
+        return 4;
+    else if (letra == 'e' || letra == 'E')
+        return 5;
+    else if (letra == 'f' || letra == 'F')
+        return 6;
+    else if (letra == 'g' || letra == 'G')
+        return 7;
+    else if (letra == 'f' || letra == 'F')
+        return 8;
+    else
+        return 0;
+}
