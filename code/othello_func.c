@@ -1,5 +1,17 @@
 #include <stdio.h>
 
+    int turn = 1;
+
+char player(int turn){
+    if (turn % 2 == 0){
+        turn++;
+        return 'o';
+    }else {
+        turn++;
+        return 'x';    
+}
+}
+
 char print_board(char tboard[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
@@ -21,12 +33,18 @@ char* init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo 
     return(tboard);
 }
 
-char* play(char board[9][9],int linha, int col,int color){
+char* play(char board[9][9],int linha,int col,int color){
+
+}
+
+char input(char board[9][9]){
     char col;
     int lin,coluna,cor,i;
     printf("Insira a jogada ( separada por um espaço)\n");
     scanf("%c %d",&col,&lin);
     coluna = decode(col);
+    play(board[9][9],lin,col,player(turn));
+
 }
 
 int check(char board[9][9],int l,int c,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
@@ -109,7 +127,6 @@ int check(char board[9][9],int l,int c,char player){ //esta funçao serve para c
         }
     }
 
-
 int direction(char board[9][9],int linha, int col,char player){
     int p=0; // quantidade de peças diferentes do jogador actual que esta a jogar
     for (int l=-1;l == -1 || l == 0|| l == 1;l++){
@@ -143,4 +160,13 @@ int decode(char letra){
         return 8;
     else
         return 0;
+}
+
+char* rewrite(char board[9][9]){
+    for (int l= 0; l < 9; l++){
+        for (int c = 0; c < 9; c++){
+                board[l][c] = '.';
+            }
+        }
+    return(board);
 }
