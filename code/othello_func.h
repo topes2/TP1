@@ -6,7 +6,7 @@ int direction(char board[9][9],int linha, int col,char player);
 
 int decode(char letra);
 
-int check(char board[9][9],int l,int c,char player);
+int check(char board[9][9],int l,int c,int linha,int col,char player);
 
 char* play(char board[9][9],int linha, int col,int color);
 
