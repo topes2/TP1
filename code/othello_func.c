@@ -40,7 +40,10 @@ char* init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo 
     }
 }
 */
-
+char p2(char player){
+    if (player=='x') return 'o';
+    else return 'x';
+ }
 int input(int *linha,int *col){
     char coluna;
     int linhatemp;
@@ -57,12 +60,8 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
 
-    if (player=='x') player2 = 'o';
-    else player2 = 'x';
+    player2 = p2(player);
     
-    
-    
-
     if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
         if (c ==1){
             while(board[linha][col] == player2){
