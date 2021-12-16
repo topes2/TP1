@@ -53,7 +53,7 @@ int input(int *linha,int *col){
     return(linha,col);
 }
 
-int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
+int check(char board[9][9],int l,int c,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
         if (c ==1){
@@ -67,7 +67,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
     }
     if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao norte
         if (l ==1){
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[l][c] != player && board[l][c]!= '.'){ 
                 i2++;
                 l++;
                 if (board[l][c] == player)
@@ -139,8 +139,8 @@ int direction(char board[9][9],int linha, int col,char player){
         for (int c = -1; c == -1 || c == 0 || c == 1;c++){
             if ( board[linha][col] == '.'){
                 if (board[linha+l][col+c]!=player && board[linha+l][col+c]!='.' && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    if (check(board,l,c,linha,col,player) > p)
-                        p = check(board,l,c,linha,col,player);
+                    if (check(board,l,c,player) > p)
+                        p = check(board,linha + l,col + c,player);
                 }
             }
         }
