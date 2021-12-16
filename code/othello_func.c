@@ -138,7 +138,7 @@ int direction(char board[9][9],int linha, int col,char player){
     for (int l=-1;l == -1 || l == 0|| l == 1;l++){
         for (int c = -1; c == -1 || c == 0 || c == 1;c++){
             if ( board[linha][col] == '.'){
-                if (board[linha+l][col+c]!=player && board[linha+l][col+c]!='.' && linha+l > 9 && col+c > 9 && linha+l > 0 && col+c > 0){
+                if (board[linha+l][col+c]!=player && board[linha+l][col+c]!='.' && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
                     if (check(board,l,c,player) > p)
                         p = check(board,l,c,player);
                 }
