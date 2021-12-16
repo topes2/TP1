@@ -53,11 +53,19 @@ int input(int *linha,int *col){
     return(linha,col);
 }
 
-int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
+int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
+    char player2;
+
+    if (player=='x') player2 = 'o';
+    else player2 = 'x';
+    
+    
+    
+
     if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
         if (c ==1){
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i1++;
                 c++;
                 if (board[l][c] == player)
@@ -67,7 +75,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
     }
     if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao norte
         if (l ==1){
-            while(board[l][c] != player && board[l][c]!= '.'){ 
+            while(board[linha][col] == player2){ 
                 i2++;
                 l++;
                 if (board[l][c] == player)
@@ -77,7 +85,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
     }
     if (l == 0){ //vemos se ha e contamos as peças do outro jogador na direçao oeste
         if(c == -1){
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i3++;
                 c--;
                 if (board[l][c] == player)
@@ -87,7 +95,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
     }
     if (c == 0){ //vemos se ha e contamos as peças do outro jogador na direçao sul
         if(l == -1){
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i4++;
                 l--;
                 if (board[l][c] == player)
@@ -96,7 +104,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
         }
     }
         if (l == -1 && c == -1){ //vemos se ha e contamos as peças do outro jogador na direçao nordoeste
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i5++;
                 l--;
                 c--;
@@ -105,7 +113,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
             }
         }
         if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao nordeste
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i6++;
                 l++;
                 c--;
@@ -114,7 +122,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
             }
         }
         if (l == 1 && c == 1){   //vemos se ha e contamos as peças do outro jogador na direçao sudeste
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i7++;
                 l++;
                 c++;
@@ -123,7 +131,7 @@ int check(char board[9][9],int l,int c,int linha,linha col,char player){ //esta 
             }
         }
         if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao sudoeste
-            while(board[l][c] != player && board[l][c]!= '.'){
+            while(board[linha][col] == player2){
                 i8++;
                 l++;
                 c--;
