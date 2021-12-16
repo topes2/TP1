@@ -143,7 +143,7 @@ int direction(char board[9][9],int linha, int col,char player){
                         p = check(board,l,c,player);
                 }
             }
-        }                
+        }
     }
 }
 
