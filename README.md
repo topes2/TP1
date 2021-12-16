@@ -47,6 +47,8 @@ E depois temos as regras que vamos ser obrigados a fazer para o trabalho
     ○ coloca uma peça de cor color na posição ( line , col ) e vira as peças do adversário
 de acordo com as regras indicadas na descrição do jogo..
 
+
+
 ● flanked( board, line, col, color )
     ○ Conta o número de peças viradas ao jogar numa certa linha e coluna. Se a jogada for
 inválida retorna zero.
@@ -105,3 +107,5 @@ e depois
 [6,14,22,30,38,46,54,62]  -->f
 [7,15,23,31,39,47,55,63]  -->g
 [8,16,24,32,40,48,56,64]  -->h
+
+ok entao sao 11pm dia 15/12 eu acho que tenho algumas partes do trabalho feitas mas nao posso testar nada porque o input ta mal feito....
