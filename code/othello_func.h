@@ -13,3 +13,5 @@ char* play(char board[9][9],int linha, int col,int color);
 char* rewrite(char board[9][9]);
 
 char player(int turn);
+
+int input(int *linha,int *col);

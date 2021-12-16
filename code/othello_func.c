@@ -1,13 +1,14 @@
 #include <stdio.h>
+#include "othello_func.h"
 
-    int turn = 1;
+    int turn = 0;
+    int linha,col;
 
 char player(int turn){
+    turn++;
     if (turn % 2 == 0){
-        turn++;
         return 'o';
     }else {
-        turn++;
         return 'x';    
 }
 }
@@ -33,18 +34,23 @@ char* init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo 
     return(tboard);
 }
 
-char* play(char board[9][9],int linha,int col,int color){
-
+/*char* play(char board[9][9],int linha,int col,int color){
+    if (check(board[9][9],linha,col,color) != 0){
+        
+    }
 }
+*/
 
-char input(char board[9][9]){
-    char col;
-    int lin,coluna,cor,i;
-    printf("Insira a jogada ( separada por um espaço)\n");
-    scanf("%c %d",&col,&lin);
-    coluna = decode(col);
-    play(board[9][9],lin,col,player(turn));
-
+int input(int *linha,int *col){
+    char coluna;
+    int linhatemp;
+    printf("Insira a jogada ( separada por um espaço, coluna por linha)\n");
+    scanf("%c ",&coluna);
+    scanf("%x",&linhatemp);
+    *col = (int) (decode(coluna));
+    printf("%d \n %d",decode(coluna),linhatemp);
+    *linha = linhatemp;
+    return(linha,col);
 }
 
 int check(char board[9][9],int l,int c,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
@@ -142,24 +148,24 @@ int direction(char board[9][9],int linha, int col,char player){
 }
 
 int decode(char letra){
-    if (letra == 'a' || letra == 'A')
-        return 1;
-    else if (letra == 'b' || letra == 'B')
-        return 2;
-    else if (letra == 'c' || letra == 'C') 
-        return 3;
+    if ((letra == 'a') || (letra == 'A'))
+        return (int) 1;
+    else if ((letra == 'b') || (letra == 'B'))
+        return (int) 2;
+    else if ((letra == 'c') || (letra == 'C')) 
+        return (int) 3;
     else if (letra == 'd' || letra == 'D')
-        return 4;
+        return (int) 4;
     else if (letra == 'e' || letra == 'E')
-        return 5;
+        return (int) 5;
     else if (letra == 'f' || letra == 'F')
-        return 6;
+        return (int) 6;
     else if (letra == 'g' || letra == 'G')
-        return 7;
+        return (int) 7;
     else if (letra == 'f' || letra == 'F')
-        return 8;
+        return (int) 8;
     else
-        return 0;
+        return (int) 0;
 }
 
 char* rewrite(char board[9][9]){
