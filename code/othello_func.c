@@ -90,7 +90,9 @@ void play(char board[9][9],char player, int linha, char coluna){
     int col;
     int ppvirar[8]={0,0,0,0,0,0,0,0};
     int maior;
+    char player2;
 
+    
     col = decode(coluna);
     direction(board,linha,col,player,ppvirar);
     maior = ppvirar[0];
@@ -99,6 +101,39 @@ void play(char board[9][9],char player, int linha, char coluna){
         if (maior < ppvirar[i])
             maior = ppvirar[i];
     }
+
+    for (int i = 0; i < 8; i++)
+    {
+        if (ppvirar[i] == maior)
+        { 
+            if (i==0)// direção este
+                for ( int j = col+1, viradas=0; viradas < maior ; j++, viradas++ )
+                    board[linha][j] = player;
+             else if (i==1)// direção sul
+                for ( int j = linha+1, viradas=0; viradas < maior ; j++, viradas++ )
+                    board[j][col] = player;
+            else if (i==2)// direção oeste
+                for ( int j = col-1, viradas=0; viradas < maior ; j--, viradas++ )
+                    board[linha][j] = player;
+            else if (i==3)// direção norte
+                for ( int j = linha-1, viradas=0; viradas < maior ; j--, viradas++ )
+                    board[j][col] = player;
+            else if (i==4)// direção noroeste
+                for ( int m = linha-1 ,j = col-1, viradas=0; viradas < maior ;m-- , j--, viradas++ )
+                    board[m][j] = player;        
+            else if (i==5)// direção suldoeste
+                for ( int m = linha++ ,j = col--, viradas=0; viradas < maior ;m++ , j--, viradas++ )
+                    board[m][j] = player;     
+            else if (i==6)// direção suldeste
+                for ( int m = linha++ ,j = col++, viradas=0; viradas < maior ;m++ , j++, viradas++ )
+                    board[m][j] = player;         
+            else if (i==7)// direção nordeste
+                for ( int m = linha-- ,j = col++, viradas=0; viradas < maior ;m-- , j++, viradas++ )
+                    board[m][j] = player;  
+        }
+        
+    }
+    
     
 
 
@@ -108,6 +143,8 @@ void play(char board[9][9],char player, int linha, char coluna){
 int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
+    
+    
 
     player2 = p2(player);
     
@@ -121,7 +158,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
             }
         }
     }
-    if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao norte
+    if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao sul
         if (l ==1){
             while(board[linha][col] == player2){ 
                 i2++;
@@ -141,7 +178,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
             }
         }
     }
-    if (c == 0){ //vemos se ha e contamos as peças do outro jogador na direçao sul
+    if (c == 0){ //vemos se ha e contamos as peças do outro jogador na direçao norte
         if(l == -1){
             while(board[linha][col] == player2){
                 i4++;
@@ -160,7 +197,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
                     return i5;
             }
         }
-        if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao nordeste
+        if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao sudoeste
             while(board[linha][col] == player2){
                 i6++;
                 linha++;
@@ -178,11 +215,11 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
                     return i7;
             }
         }
-        if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao sudoeste
+        if (l == -1 && c == 1){  //vemos se ha e contamos as peças do outro jogador na direçao nordeste
             while(board[linha][col] == player2){
                 i8++;
-                linha++;
-                col--;
+                linha--;
+                col++;
                 if (board[l][c] == player )
                     return i8;
             }
