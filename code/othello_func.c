@@ -4,6 +4,33 @@
     int turn = 0;
     int linha,col;
 
+int menu(){
+    int mainmode,segmode;
+    printf("Bem vindo a Othello por Andre e Diogo\n");
+    printf("Que modo gostaria de jogar?\n \
+    1-Modo Classico onde 4 peças ja estao colocadas no tabuleiro\n \
+    2-Modo Custom onde pode escolher onde inserir as peças inciais\n");
+    scanf("%d",&mainmode);
+    if (mainmode == 1){
+        printf("\
+         1-Pessoa V Pessoa\n \
+        2-Pessoa V Bot\n");
+        scanf("%d",&segmode);
+        if (segmode == 1){
+            return(segmode);
+        }else
+            return (segmode);
+    }else
+        printf("\
+         1-Pessoa V Pessoa\n \
+        2-Pessoa V Bot\n");
+        scanf("%d",&segmode);
+        if (segmode == 1){
+            return(segmode);
+        }else
+            return (segmode);
+} 
+
 char player(int turn){
     turn++;
     if (turn % 2 == 0){
@@ -53,17 +80,11 @@ void input(int *linha,int *col){
     char coluna;
     int linhatemp;
     printf("Insira a jogada ( separada por um espaço, coluna por linha)\n");
-<<<<<<< HEAD
-    scanf("%c ",&coluna);
-    scanf("%d",&linha);
-    *col = (int) (decode(coluna));
-=======
     scanf(" %c ",&coluna);
     scanf(" %d",&linhatemp);
     *col = (int) (decode(coluna));
     *linha = linhatemp;
     return(linha,col);
->>>>>>> main
 }
 void play(char board[9][9],char player, int linha, char coluna){
     int col;
