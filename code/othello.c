@@ -18,7 +18,7 @@ void main(){
     print_board(init_board(board));
     /* a certo ponto tenho de implementar uma maneira de fazer isto de uma maneria mais bonita mas por enquanto vai ser assim que vamos dar os valores para as
     variaveis de coluna e linha */
-    input(linha,col);
+    input(&linha,&col);
     printf("linha %d \n coluna %d",linha,col);
     //play(board[9][9],)
     
