@@ -14,4 +14,4 @@ char* rewrite(char board[9][9]);
 
 char player(int turn);
 
-int input(int *linha,int *col);
+void input(int *linha,int *col);

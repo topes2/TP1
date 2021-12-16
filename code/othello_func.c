@@ -22,8 +22,8 @@ char print_board(char tboard[9][9]){
         }
 }
  
-char* init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo padrao
-    for (int l= 0; l < 9; l++){
+char* init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo padrao 
+    for (int l= 0; l < 9; l++){  // todo simpleficar e por bonito 
         for (int c = 0; c < 9; c++){
             if(l == 4 && c == 4 || l == 5 && c == 5)
                 tboard[l][c] = 'o';
@@ -44,16 +44,14 @@ char p2(char player){
     if (player=='x') return 'o';
     else return 'x';
  }
-int input(int *linha,int *col){
+ 
+void input(int *linha,int *col){
     char coluna;
     int linhatemp;
     printf("Insira a jogada ( separada por um espaço, coluna por linha)\n");
     scanf("%c ",&coluna);
-    scanf("%x",&linhatemp);
+    scanf("%d",&linha);
     *col = (int) (decode(coluna));
-    printf("%d \n %d",decode(coluna),linhatemp);
-    *linha = linhatemp;
-    return(linha,col);
 }
 
 int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco

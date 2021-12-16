@@ -18,13 +18,12 @@ Temos as 3 regras do jogo:
 
 E depois temos as regras que vamos ser obrigados a fazer para o trabalho
 --Temos de mostrar as possibilidades de onde por as peças para ambos jogadores(TODO)
---Lugares vazios sao marcados com "." (TODO)
---Lugares com pretos sao marcados com "x" (TODO)
---Lugares com brancos sao marcados com "o" (TODO)
---Começar com o tabuleiro original (TODO)
+--Lugares vazios sao marcados com "."
+--Lugares com pretos sao marcados com "x"
+--Lugares com brancos sao marcados com "o"
+--Começar com o tabuleiro original
 --Começar com o tabuleiro custom lido de um ficheiro(TODO)
 --Fazer o tabuleiro costum onde o jogador pode por as peças que quiser onde quiser(TODO)
---E decidido random quem fica com as pretas (o primeiro a jogar) (TODO)
 --Terminar o jogo quando quando nao ha mais lugares livres(TODO)
 --Contar as peças de cada jogador e mostrar um vencedor(TODO)
 --Implementar um tipo de AI (isto e para creditos extra e nao e obrigatorio mas mesmo assim pode darnos mais 2 valores!) (TODO)
