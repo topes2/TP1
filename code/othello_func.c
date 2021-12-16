@@ -102,15 +102,20 @@ void input(int *linha,int *col){
     *linha = linhatemp;
 }
 
-void play(char board[9][9],char player, int linha, char coluna){
-    int col;
+void play(char board[9][9],char player, int linha, int coluna){
+    
     int ppvirar[8]={0,0,0,0,0,0,0,0};
     int maior;
     char player2;
-
+    int *p;
+    p=&ppvirar[0];
     
-    col = decode(coluna);
-    direction(board,linha,col,player,ppvirar);
+    direction(board,linha,coluna,player,p);
+    for ( int i = 0; i < 8; i++)
+    {
+        printf("%d",ppvirar[i]) ; 
+          }
+    
     maior = ppvirar[0];
     for (int i = 0; i < 8; i++)
     {
@@ -152,20 +157,26 @@ void play(char board[9][9],char player, int linha, char coluna){
     print_board(board); 
 }
 
-int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
+int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
-    
-    
-
     player2 = p2(player);
     
+
+    
+    printf("\n");
     if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
+     printf("1\n");
         if (c ==1){
+            printf("2\n");
             while(board[linha][col] == player2){
+                printf("3\n");
                 i1++;
                 col++;
-                if (board[l][c] == player)    
+                if (board[linha][col] == 'x')    
+                    printf("4\n");
+                    printf("%d\n",i1);
+                    *p=i1;
                     return i1;
             }
         }
@@ -175,7 +186,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
             while(board[linha][col] == player2){ 
                 i2++;
                 linha++;
-                if (board[l][c] == player)
+                if (board[linha][col] == player)
                     return i2;
             }
         }
@@ -185,7 +196,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
             while(board[linha][col] == player2){
                 i3++;
                 col--;
-                if (board[l][c] == player)
+                if (board[linha][col] == player)
                     return i3;
             }
         }
@@ -195,7 +206,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
             while(board[linha][col] == player2){
                 i4++;
                 linha--;
-                if (board[l][c] == player)
+                if (board[linha][col] == player)
                     return i4;
             }
         }
@@ -205,7 +216,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
                 i5++;
                 linha--;
                 col--;
-                if (board[l][c] == player)
+                if (board[linha][col] == player)
                     return i5;
             }
         }
@@ -214,7 +225,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
                 i6++;
                 linha++;
                 col--;
-                if (board[l][c] == player)
+                if (board[linha][col] == player)
                     return i6;
             }
         }
@@ -223,7 +234,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
                 i7++;
                 linha++;
                 col++;
-                if (board[l][c] == player)
+                if (board[linha][col] == player)
                     return i7;
             }
         }
@@ -232,19 +243,23 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
                 i8++;
                 linha--;
                 col++;
-                if (board[l][c] == player )
+                if (board[linha][col] == player )
                     return i8;
             }
         }
     }
 
-int direction(char board[9][9],int linha, int col,char player,int p[8]){
+int direction(char board[9][9],int linha, int col,char player,int *p){
     int pecas=0; // quantidade de peças diferentes do jogador actual que esta a jogar
-    for (int i=0 ,l=-1;l == -1 || l == 0|| l == 1;l++){
+    char player2=p2(player);
+    int i=0;
+
+    for (int l=-1;l == -1 || l == 0|| l == 1;l++){
         for (int c = -1; c == -1 || c == 0 || c == 1;c++,i++){
             if ( board[linha][col] == '.'){
-                if (board[linha+l][col+c]!=player && board[linha+l][col+c]!='.' && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    p[i]= check(board,l,c,linha+l,col+c,player);    
+                printf("%d %d\n",l, c);
+                if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
+                    check(board,l,c,linha+l,col+c,player,p);    
                 }
             }
         }

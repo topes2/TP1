@@ -26,6 +26,7 @@ void main(){
     variaveis de coluna e linha */
     input(&linha,&col);
     printf("linha %d \n coluna %d\n",linha,col);
-    play(board,player,linha,col); 
+    play(board,'x',linha,col); 
+    
  
 }
