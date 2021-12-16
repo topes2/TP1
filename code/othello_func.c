@@ -1,9 +1,16 @@
 #include <stdio.h>
+#include <time.h>
 #include "othello_func.h"
 
     int turn = 0;
     int linha,col;
-
+/*
+###############################################################################################
+Funçao menu
+Simplesmente mostra um menu ao user de mode para fazer a escolha do modo que quer jogar
+se for contra o pc ou contra outra pessoa
+###############################################################################################
+*/
 int menu(){
     int mainmode,segmode;
     printf("Bem vindo a Othello por Andre e Diogo\n");
@@ -31,13 +38,33 @@ int menu(){
             return (segmode);
 } 
 
-char player(int turn){
-    turn++;
-    if (turn % 2 == 0){
-        return 'o';
-    }else {
-        return 'x';    
+
+/*
+###############################################################################################
+Funçao para fazer um numero aleatorio para poder ter uma ordem de jogadores random
+usa a lib time.h
+###############################################################################################
+*/
+int random(){
+    srand(time(NULL));
+    int r = rand();
+    return r;
 }
+
+char player(int turn,int ordem){
+    turn++;
+    if (ordem = 1){
+        if (turn % 2 == 0){
+            return 'o';
+        }else {
+            return 'x';    
+    }
+    }else
+        if (turn % 2 == 0){
+            return 'x';
+        }else {
+            return 'o';    
+    }
 }
 
 char print_board(char tboard[9][9]){
@@ -49,13 +76,8 @@ char print_board(char tboard[9][9]){
         }
 }
  
-<<<<<<< HEAD
-char* init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo padrao 
-    for (int l= 0; l < 9; l++){  // todo simpleficar e por bonito 
-=======
-void init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo padrao
+void init_board(char tboard[9][9]){ // inserir as primeiras peças para o jogo padrao
     for (int l= 0; l < 9; l++){
->>>>>>> main
         for (int c = 0; c < 9; c++){
             if(l == 4 && c == 4 || l == 5 && c == 5)
                 tboard[l][c] = 'o';
@@ -65,12 +87,6 @@ void init_board(char tboard[9][9]){ // inserir as primerias peças para o jogo p
         }
 }
 
-/*char* play(char board[9][9],int linha,int col,int color){
-    if (check(board[9][9],linha,col,color) != 0){
-        
-    }
-}
-*/
 char p2(char player){
     if (player=='x') return 'o';
     else return 'x';
@@ -84,8 +100,8 @@ void input(int *linha,int *col){
     scanf(" %d",&linhatemp);
     *col = (int) (decode(coluna));
     *linha = linhatemp;
-    return(linha,col);
 }
+
 void play(char board[9][9],char player, int linha, char coluna){
     int col;
     int ppvirar[8]={0,0,0,0,0,0,0,0};
@@ -133,13 +149,9 @@ void play(char board[9][9],char player, int linha, char coluna){
         }
         
     }
-    
-    
-
-
-
-
+    print_board(board); 
 }
+
 int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
@@ -226,9 +238,8 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){ //esta fu
         }
     }
 
-void direction(char board[9][9],int linha, int col,char player,int p[8]){
-    
-    int p=0; // quantidade de peças diferentes do jogador actual que esta a jogar
+int direction(char board[9][9],int linha, int col,char player,int p[8]){
+    int pecas=0; // quantidade de peças diferentes do jogador actual que esta a jogar
     for (int i=0 ,l=-1;l == -1 || l == 0|| l == 1;l++){
         for (int c = -1; c == -1 || c == 0 || c == 1;c++,i++){
             if ( board[linha][col] == '.'){
@@ -261,11 +272,10 @@ int decode(char letra){ //alterar para uma função n merda
         return (int) 0;
 }
 
-char* rewrite(char board[9][9]){
+void rewrite(char board[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
                 board[l][c] = '.';
             }
         }
-    return(board);
 }
