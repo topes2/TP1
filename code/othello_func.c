@@ -128,7 +128,7 @@ void play(char board[9][9],char player, int linha, int coluna){
         if (ppvirar[i] == maior)
         { 
             if (i==0)// direção este
-                for ( int j = col+1, viradas=0; viradas < maior ; j++, viradas++ )
+                for ( int j = coluna, viradas=0; viradas <= maior ; j++, viradas++ )
                     board[linha][j] = player;
              else if (i==1)// direção sul
                 for ( int j = linha+1, viradas=0; viradas < maior ; j++, viradas++ )
