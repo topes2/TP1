@@ -19,6 +19,5 @@ void main(){
     /* a certo ponto tenho de implementar uma maneira de fazer isto de uma maneria mais bonita mas por enquanto vai ser assim que vamos dar os valores para as
     variaveis de coluna e linha */
     input(&linha,&col);
-    printf("linha %d\ncoluna %d",linha,col);
-    
+    printf("linha %d \n coluna %d",linha,col);   
 }
