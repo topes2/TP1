@@ -2,7 +2,7 @@
 #include <time.h>
 #include "othello_func.h"
 
-    int turn = 0;
+    
     int linha,col;
 /*
 ###############################################################################################
@@ -52,7 +52,7 @@ int random(){
 }
 
 char player(int turn,int ordem){
-    turn++;
+    
     if (ordem = 1){
         if (turn % 2 == 0){
             return 'o';
@@ -112,11 +112,9 @@ void play(char board[9][9],char player, int linha, int coluna){
     
     direction(board,linha,coluna,player,p);
     for ( int i = 0; i < 8; i++)
-    {
-        printf("%d",ppvirar[i]) ;
-         
-          }
-    printf("\n")    ;
+        printf("%d",ppvirar[i]);
+    printf("\n");
+    
     maior = ppvirar[0];
     for (int i = 0; i < 8; i++)
     {
