@@ -54,15 +54,15 @@ int random(){
 char player(int turn,int ordem){
     
     if (ordem = 1){
-        if (turn % 2 == 0){
+        if (turn % 2 == 0)
             return 'o';
-        }else {
+        else 
             return 'x';    
     }
-    }else
-        if (turn % 2 == 0){
+    else{
+        if (turn % 2 == 0)
             return 'x';
-        }else {
+        else 
             return 'o';    
     }
 }
@@ -172,7 +172,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //
                 //printf("3\n");
                 i1++;
                 col++;
-                if (board[linha][col] == 'x')    
+                if (board[linha][col] == player)    
                     //printf("4\n");
                     //printf("%d\n",i1);
                     *p=i1;
@@ -257,7 +257,7 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
     for (int l=-1;l == -1 || l == 0|| l == 1;l++){
         for (int c = -1; c == -1 || c == 0 || c == 1;c++,i++){
             if ( board[linha][col] == '.'){
-                printf("%d %d\n",l, c);
+                //printf("%d %d\n",l, c);
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
                     check(board,l,c,linha+l,col+c,player,p);    
                 }
