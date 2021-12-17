@@ -27,6 +27,18 @@ void main(){
     input(&linha,&col);
     printf("linha %d \n coluna %d\n",linha,col);
     play(board,'x',linha,col); 
+    input(&linha,&col);
+    printf("linha %d \n coluna %d\n",linha,col);
+    play(board,'x',linha,col); 
+    input(&linha,&col);
+    printf("linha %d \n coluna %d\n",linha,col);
+    play(board,'x',linha,col); 
+    input(&linha,&col);
+    printf("linha %d \n coluna %d\n",linha,col);
+    play(board,'x',linha,col); 
+    input(&linha,&col);
+    printf("linha %d \n coluna %d\n",linha,col);
+    play(board,'x',linha,col); 
     
  
 }
