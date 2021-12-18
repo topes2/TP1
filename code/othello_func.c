@@ -70,7 +70,7 @@ char player(int turn,int ordem){
 char print_board(char tboard[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
-            printf("%c  ", tboard[l] [c]);
+            printf("%c  ", tboard[l][c]);
         }
         printf("\n");
         }
@@ -95,17 +95,17 @@ char p2(char player){
 void input(int *linha,int *col){
     char coluna;
     int linhatemp;
-    printf("Insira a jogada ( separada por um espaço, coluna por linha)\n");
+    printf("Insira a jogada (coluna e linha)\n");
     scanf(" %c ",&coluna);
-    scanf(" %d",&linhatemp);
-    *col = (int) (decode(coluna));
-    *linha = linhatemp;
+    scanf(" %d",linha);
+    *col = decode(coluna);
+    
 }
+
 
 void play(char board[9][9],char player, int linha, int coluna){
     
     int ppvirar[8]={0,0,0,0,0,0,0,0};
-    int maior;
     char player2;
     int *p;
     p=&ppvirar[0];
@@ -115,40 +115,35 @@ void play(char board[9][9],char player, int linha, int coluna){
         printf("%d",ppvirar[i]);
     printf("\n");
     
-    maior = ppvirar[0];
-    for (int i = 0; i < 8; i++)
-    {
-        if (maior < ppvirar[i])
-            maior = ppvirar[i];
-    }
+    
 
     for (int i = 0; i < 8; i++)
     {
-        if (ppvirar[i] == maior && maior !=0)
+        if (ppvirar[i] != 0 )
         { 
             if (i==0)// direção este
-                for ( int j = coluna, viradas=0; viradas <= maior ; j++, viradas++ )
+                for ( int j = coluna, viradas=0; viradas <= ppvirar[i] ; j++, viradas++ )
                     board[linha][j] = player;
              else if (i==1)// direção sul
-                for ( int j = linha, viradas=0; viradas <= maior ; j++, viradas++ )
+                for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j++, viradas++ )
                     board[j][coluna] = player; 
             else if (i==2)// direção oeste
-                for ( int j = coluna, viradas=0; viradas <= maior ; j--, viradas++ )
+                for ( int j = coluna, viradas=0; viradas <=  ppvirar[i]; j--, viradas++ )
                     board[linha][j] = player;
             else if (i==3)// direção norte
-                for ( int j = linha, viradas=0; viradas <= maior ; j--, viradas++ )
+                for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j--, viradas++ )
                     board[j][coluna] = player;
             else if (i==4)// direção noroeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <= maior ;m-- , j--, viradas++ )
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j--, viradas++ )
                     board[m][j] = player;        
             else if (i==5)// direção suldoeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <= maior ;m++ , j--, viradas++ )
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j--, viradas++ )
                     board[m][j] = player;     
             else if (i==6)// direção suldeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <= maior ;m++ , j++, viradas++ )
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j++, viradas++ )
                     board[m][j] = player;         
             else if (i==7)// direção nordeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <= maior ;m-- , j++, viradas++ )
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j++, viradas++ )
                     board[m][j] = player;  
         }
         

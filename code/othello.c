@@ -28,17 +28,16 @@ void main(){
     for (int i = 0; i < 9; i++)
         for ( int j = 0; i < 9; j++)
         {
-            if (board[i][j] == '.')
+            turn++;
+            do
             {
                 input(&linha,&col);
                 printf("linha %d \n coluna %d\n",linha,col);   
-                turn++;
-                play(board,player(turn,0),linha,col);
-                
-            }
+                play(board,player(turn,0),linha,col); 
+                if (board[linha][col]!= player(turn,0))
+                    printf(" Jogada invalida\n Jogue outra vez\n");
+            }while (board[linha][col]!= player(turn,0));
             
-            
-   
         }
         
     
