@@ -12,11 +12,11 @@ void main(){
 
     char board[9][9];
     init_board(board);        
-    print_board(board);
     
     for (int i = 0; i < 9; i++)
         for ( int j = 0; i < 9; j++)
-        {
+        {   
+            print_board(board); 
             turn++;
             do
             {

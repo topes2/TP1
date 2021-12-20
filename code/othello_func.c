@@ -94,7 +94,7 @@ void init_board(char tboard[9][9]){
             if (c == 0 && l > 0)
                 tboard[l][c] = l;
             if (c == 0 && l == 0)
-                tboard[l][c] = 'tt';
+                tboard[l][c] = 't';
             }
         }
 }
@@ -159,7 +159,6 @@ void play(char board[9][9],char player, int linha, int coluna){
         }
         
     }
-    print_board(board); 
 }
 
 int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
