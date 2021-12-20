@@ -10,21 +10,10 @@ void main(){
     else 
         ordem = 0;
 
-    char board[9][9]={
-        {' ','A','B','C','D','E','F','G','H'},
-        {'1','.','.','.','.','.','.','.','.'},
-        {'2','.','.','.','.','.','.','.','.'},
-        {'3','.','.','.','.','.','.','.','.'},
-        {'4','.','.','.','.','.','.','.','.'},
-        {'5','.','.','.','.','.','.','.','.'},
-        {'6','.','.','.','.','.','.','.','.'},
-        {'7','.','.','.','.','.','.','.','.'},
-        {'8','.','.','.','.','.','.','.','.'}
-    };
+    char board[9][9];
     init_board(board);        
     print_board(board);
-    /* a certo ponto tenho de implementar uma maneira de fazer isto de uma maneria mais bonita mas por enquanto vai ser assim que vamos dar os valores para as
-    variaveis de coluna e linha */
+    
     for (int i = 0; i < 9; i++)
         for ( int j = 0; i < 9; j++)
         {
@@ -36,11 +25,6 @@ void main(){
                 play(board,player(turn,0),linha,col); 
                 if (board[linha][col]!= player(turn,0))
                     printf(" Jogada invalida\n Jogue outra vez\n");
-            }while (board[linha][col]!= player(turn,0));
-            
+            }while (board[linha][col]!= player(turn,0)); 
         }
-        
-    
-    
- 
 }

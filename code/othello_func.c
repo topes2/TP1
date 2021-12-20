@@ -70,19 +70,31 @@ char player(int turn,int ordem){
 char print_board(char tboard[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
+            if (c != 0)
             printf("%c  ", tboard[l][c]);
+            else if(c == 0 && l == 0)
+            printf("  ");
+            else
+            printf("%d ",tboard[l][c]);
         }
         printf("\n");
         }
 }
  
-void init_board(char tboard[9][9]){ // inserir as primeiras peças para o jogo padrao
-    for (int l= 0; l < 9; l++){
-        for (int c = 0; c < 9; c++){
+void init_board(char tboard[9][9]){
+    for (int l = 0; l <= 9; l++){
+        for (int c = 0; c <= 9; c++){
+            tboard[l][c] = '.';
             if(l == 4 && c == 4 || l == 5 && c == 5)
                 tboard[l][c] = 'o';
             else if(l== 4 && c == 5 || l == 5 && c == 4)
-                tboard[l][c]= 'x';      
+                tboard[l][c]= 'x';  
+            if (l == 0 && c > 0)
+                tboard[l][c] = (char) 64+c;
+            if (c == 0 && l > 0)
+                tboard[l][c] = l;
+            if (c == 0 && l == 0)
+                tboard[l][c] = 'tt';
             }
         }
 }
@@ -101,7 +113,6 @@ void input(int *linha,int *col){
     *col = decode(coluna);
     
 }
-
 
 void play(char board[9][9],char player, int linha, int coluna){
     
@@ -280,12 +291,4 @@ int decode(char letra){ //alterar para uma função n merda
         return (int) 8;
     else
         return (int) 0;
-}
-
-void rewrite(char board[9][9]){
-    for (int l= 0; l < 9; l++){
-        for (int c = 0; c < 9; c++){
-                board[l][c] = '.';
-            }
-        }
 }
