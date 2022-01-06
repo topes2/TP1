@@ -297,7 +297,6 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
     for (int l=-1;l == -1 || l == 0|| l == 1;l++){
         for (int c = -1; c == -1 || c == 0 || c == 1;c++,i++){
             if ( board[linha][col] == '.'){
-                //printf("%d %d\n",l, c);
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
                     check(board,l,c,linha+l,col+c,player,p);    
                 }
@@ -309,18 +308,28 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
 int next(char board[9][9],char player){
     int x = 0;
     char board2[9][9];
-    for (int i = 0; i < 9; i++)
-        for ( int j = 0; j < 9; j++){
-            if (board[i][j]!= ".")
+    for (int i1 = 0; i1 < 9; i1++)
+        for ( int j1 = 0; j1 < 9; j1++){
+            if (board[i1][j1]!= ".")
                 x++; 
         }
     if(x != 0){
-        for (int i = 0; i < 9; i++)
-            for ( int j = 0; j < 9; j++)
-                board2[i][j] = board[i][j];
+        for (int i2 = 1; i2 < 9; i2++)
+            for ( int j2 = 1; j2 < 9; j2++)
+                board2[i2][j2] = board[i2][j2];
     }
-    print_board(board2);
+    for (int i3 = 1; i3 < 9; i3++)
+        for ( int j3 = 1; j3 < 9; j3++){
+            if(board[i3][j3]== "."){
+                for (int l=-1;l == -1 || l == 0|| l == 1;l++)
+                    for (int c = -1; c == -1 || c == 0 || c == 1;c++){
+                        if(board2[i3+l][j3+c]!= player && board2[l][c]!= ".")
+                        check(board2,l,c,i3,j3,player,p); //epa porra aqui precisamos de ver como tirar o p
+                    }                       
+            }
 
+        }
+    print_board(board2);
 }
 
 /*
