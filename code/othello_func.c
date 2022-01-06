@@ -11,33 +11,18 @@ se for contra o pc ou contra outra pessoa
 ###############################################################################################
 */
 int menu(){
-    int mainmode,segmode;
+    int mainmode;
     printf("Bem vindo a Othello por Andre e Diogo\n");
     printf("Que modo gostaria de jogar?\n \
-    1-Modo Classico onde 4 peças ja estao colocadas no tabuleiro\n \
-    2-Modo Custom onde pode escolher onde inserir as peças inciais\n");
-    scanf("%d",&mainmode);
-    if (mainmode == 1){
-        printf("\
-         1-Pessoa V Pessoa\n \
-        2-Pessoa V Bot\n");
-        scanf("%d",&segmode);
-        if (segmode == 1){
-            return(segmode);
-        }else
-            return (segmode);
-    }else
-        printf("\
-         1-Pessoa V Pessoa\n \
-        2-Pessoa V Bot\n");
-        scanf("%d",&segmode);
-        if (segmode == 1){
-            return(segmode);
-        }else
-            return (segmode);
-} 
+    1-Modo pessoa vs pessoa\n \
+    2-Modo pessoa vs computador\n");
+    do
+        scanf("%d",&mainmode);
+    while (mainmode != 1 && mainmode != 2);
+     
 
-
+    return mainmode;
+}
 /*
 ###############################################################################################
 Funçao para fazer um numero aleatorio para poder ter uma ordem de jogadores random
@@ -53,20 +38,10 @@ int random(){
 /*
 ##############################################################################################################################################################################################
 */
-char player(int turn,int ordem){
+char player(int turn){
     
-    if (ordem = 1){
-        if (turn % 2 == 0)
-            return 'o';
-        else 
-            return 'x';    
-    }
-    else{
-        if (turn % 2 == 0)
-            return 'x';
-        else 
-            return 'o';    
-    }
+    if (turn % 2 == 0) return 'o';
+    else return 'x';    
 }
 
 /*
