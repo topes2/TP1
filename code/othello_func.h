@@ -8,6 +8,8 @@ int decode(char letra);
 
 int check(char board[9][9],int l,int c,int linha,int col,char player,int *p);
 
+int checknext(char board[9][9],int l,int c,int linha,int col,char player);
+
 void play(char board[9][9],char player, int linha, int coluna);
 
 char player(int turn,int ordem);

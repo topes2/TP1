@@ -310,8 +310,8 @@ int next(char board[9][9],char player){
                 x++; 
         }
     if(x != 0){
-        for (int i2 = 1; i2 < 9; i2++)
-            for ( int j2 = 1; j2 < 9; j2++)
+        for (int i2 = 0; i2 < 9; i2++)
+            for ( int j2 = 0; j2 < 9; j2++)
                 board2[i2][j2] = board[i2][j2];
     }
     for (int i3 = 1; i3 < 9; i3++)
@@ -319,14 +319,99 @@ int next(char board[9][9],char player){
             if(board[i3][j3]== "."){
                 for (int l=-1;l == -1 || l == 0|| l == 1;l++)
                     for (int c = -1; c == -1 || c == 0 || c == 1;c++){
-                        if(board2[i3+l][j3+c]!= player && board2[l][c]!= ".")
-                        check(board2,l,c,i3,j3,player,p); //epa porra aqui precisamos de ver como tirar o p
+                        if(board2[i3+l][j3+c]!= player && board2[l][c]!= "." && i3+l > 0 && j3+c > 0)
+                        if(checknext(board2,l,c,i3,j3,player))
+                            board2[i3][j3] = "q";
                     }                       
             }
 
         }
     print_board(board2);
 }
+
+int checknext(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
+    int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
+    char player2;
+    player2 = p2(player);
+    if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
+     //printf("1\n");
+        if (c ==1){
+            //printf("2\n");
+            while(board[linha][col] == player2){
+                i1++;
+                col++;
+                if (board[linha][col] == player)    
+                    return 1;
+            }
+        }
+    }
+    if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao sul
+        if (l ==1){
+            while(board[linha][col] == player2){ 
+                i2++;
+                linha++;
+                if (board[linha][col] == player)
+                    return 1;
+            }
+        }
+    }
+    if (l == 0){ //vemos se ha e contamos as peças do outro jogador na direçao oeste
+        if(c == -1){
+            while(board[linha][col] == player2){
+                i3++;
+                col--;
+                if (board[linha][col] == player)
+                    return 1;
+            }
+        }
+    }
+    if (c == 0){ //vemos se ha e contamos as peças do outro jogador na direçao norte
+        if(l == -1){
+            while(board[linha][col] == player2){
+                i4++;
+                linha--;
+                if (board[linha][col] == player)
+                    return 1;
+            }
+        }
+    }
+        if (l == -1 && c == -1){ //vemos se ha e contamos as peças do outro jogador na direçao noroeste
+            while(board[linha][col] == player2){
+                i5++;
+                linha--;
+                col--;
+                if (board[linha][col] == player)
+                    return 1;
+            }
+        }
+        if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao sudoeste
+            while(board[linha][col] == player2){
+                i6++;
+                linha++;
+                col--;
+                if (board[linha][col] == player)
+                    return 1;
+            }
+        }
+        if (l == 1 && c == 1){   //vemos se ha e contamos as peças do outro jogador na direçao sudeste
+            while(board[linha][col] == player2){
+                i7++;
+                linha++;
+                col++;
+                if (board[linha][col] == player)
+                    return 1;
+            }
+        }
+        if (l == -1 && c == 1){  //vemos se ha e contamos as peças do outro jogador na direçao nordeste
+            while(board[linha][col] == player2){
+                i8++;
+                linha--;
+                col++;
+                if (board[linha][col] == player )
+                    return 1;
+            }
+        }
+    }
 
 /*
 ###############################################################################################
