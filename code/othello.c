@@ -49,6 +49,7 @@ parcela do main se existir file jogadas.txt
        // Program exits if the file pointer returns NULL.
        exit(1);
    }
+
     if(m_jogo=1)
         for (int i = 0; i < 9;)
         { turn++;
@@ -57,7 +58,7 @@ parcela do main se existir file jogadas.txt
             
             printf("             Pontuação\n");
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-            print_board(board);
+            next(board,player);
             input(&linha,&col);
             fprintf(f,"%d %d",col,linha);
             printf("linha %d \ncoluna %d\n",linha,col);   
