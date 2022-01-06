@@ -2,8 +2,7 @@
 #include <time.h>
 #include "othello_func.h"
 
-    
-    int linha,col;
+int linha,col;
 /*
 ###############################################################################################
 Funçao menu
@@ -51,6 +50,9 @@ int random(){
     return r;
 }
 
+/*
+##############################################################################################################################################################################################
+*/
 char player(int turn,int ordem){
     
     if (ordem = 1){
@@ -67,6 +69,9 @@ char player(int turn,int ordem){
     }
 }
 
+/*
+##############################################################################################################################################################################################
+*/
 char print_board(char tboard[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
@@ -80,7 +85,11 @@ char print_board(char tboard[9][9]){
         printf("\n");
         }
 }
- 
+
+/*
+###############################################################################################
+##############################################################################################
+*/ 
 void init_board(char tboard[9][9]){
     for (int l = 0; l <= 9; l++){
         for (int c = 0; c <= 9; c++){
@@ -93,17 +102,25 @@ void init_board(char tboard[9][9]){
                 tboard[l][c] = (char) 64+c;
             if (c == 0 && l > 0)
                 tboard[l][c] = l;
-            if (c == 0 && l == 0)
-                tboard[l][c] = 't';
+
             }
         }
 }
 
+/*
+###############################################################################################
+##############################################################################################
+*/
 char p2(char player){
     if (player=='x') return 'o';
     else return 'x';
  }
- 
+
+/*
+###############################################################################################
+Funçao Input
+###############################################################################################
+*/
 void input(int *linha,int *col){
     char coluna;
     int linhatemp;
@@ -114,16 +131,21 @@ void input(int *linha,int *col){
     
 }
 
+/*
+###############################################################################################
+Funçao Play
+###############################################################################################
+*/
 void play(char board[9][9],char player, int linha, int coluna){
     
     int ppvirar[8]={0,0,0,0,0,0,0,0};
     char player2;
     int *p;
+    int pecasviradas=0;
     p=&ppvirar[0];
     
     direction(board,linha,coluna,player,p);
     for ( int i = 0; i < 8; i++)
-        printf("%d",ppvirar[i]);
     printf("\n");
     
     
@@ -137,7 +159,7 @@ void play(char board[9][9],char player, int linha, int coluna){
                     board[linha][j] = player;
              else if (i==1)// direção sul
                 for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j++, viradas++ )
-                    board[j][coluna] = player; 
+                    board[j][coluna] = player;
             else if (i==2)// direção oeste
                 for ( int j = coluna, viradas=0; viradas <=  ppvirar[i]; j--, viradas++ )
                     board[linha][j] = player;
@@ -146,21 +168,33 @@ void play(char board[9][9],char player, int linha, int coluna){
                     board[j][coluna] = player;
             else if (i==4)// direção noroeste
                 for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j--, viradas++ )
-                    board[m][j] = player;        
+                    board[m][j] = player; 
             else if (i==5)// direção suldoeste
                 for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j--, viradas++ )
-                    board[m][j] = player;     
+                    board[m][j] = player;
             else if (i==6)// direção suldeste
                 for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j++, viradas++ )
-                    board[m][j] = player;         
+                    board[m][j] = player;     
             else if (i==7)// direção nordeste
                 for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j++, viradas++ )
-                    board[m][j] = player;  
+                    board[m][j] = player;            
         }
-        
     }
+    for ( int i = 0; i < 8; i++)
+        pecasviradas=pecasviradas+ppvirar[i];
+
+    
+    printf("%d peças viradas\n",pecasviradas);
+   
 }
 
+/*
+###############################################################################################
+Funçao Check
+Esta funçao serve para nos vermos se a jogada e valida e se vira alguma peça
+na direcao dada pela funçao direction.
+###############################################################################################
+*/
 int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
@@ -254,6 +288,14 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //
         }
     }
 
+/*
+###############################################################################################
+Funçao Direction
+Usamos esta funçao como a maneira de ter umas das 8 direçoes para usar depois na funcao de 
+check, assim evitando algo mais messy. 
+Aproveitamos e contamos as peças viradas
+###############################################################################################
+*/
 int direction(char board[9][9],int linha, int col,char player,int *p){
     int pecas=0; // quantidade de peças diferentes do jogador actual que esta a jogar
     char player2=p2(player);
@@ -271,7 +313,11 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
     }
 }
 
-int decode(char letra){ //alterar para uma função n merda
+/*
+###############################################################################################
+###############################################################################################
+*/
+int decode(char letra){
     if ((letra == 'a') || (letra == 'A'))
         return (int) 1;
     else if ((letra == 'b') || (letra == 'B'))
@@ -290,4 +336,12 @@ int decode(char letra){ //alterar para uma função n merda
         return (int) 8;
     else
         return (int) 0;
+}
+int pontos(char player,char board[9][9]){
+    int counter=0;
+    for (int i = 0; i < 9; i++)
+        for ( int j = 0; j < 9; j++)
+            if (board[i][j]== player) counter++;
+
+    return counter;       
 }

@@ -17,3 +17,9 @@ void input(int *linha,int *col);
 int menu();
 
 int random();
+
+int flanked(int ppvirar[8]);
+
+void printtest(int array[8]);
+
+int pontos(char player,char board[9][9]);

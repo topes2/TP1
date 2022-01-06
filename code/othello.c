@@ -11,17 +11,21 @@ void main(){
         ordem = 0;
 
     char board[9][9];
+    menu();
     init_board(board);        
+    
     
     for (int i = 0; i < 9; i++)
         for ( int j = 0; i < 9; j++)
-        {   
-            print_board(board); 
+        {
             turn++;
             do
-            {
+            {  
+                printf("             Pontuação\n");
+                printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
+                print_board(board);
                 input(&linha,&col);
-                printf("linha %d \n coluna %d\n",linha,col);   
+                printf("linha %d \ncoluna %d\n",linha,col);   
                 play(board,player(turn,0),linha,col); 
                 if (board[linha][col]!= player(turn,0))
                     printf(" Jogada invalida\n Jogue outra vez\n");
