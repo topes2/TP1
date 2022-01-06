@@ -145,10 +145,6 @@ void play(char board[9][9],char player, int linha, int coluna){
     p=&ppvirar[0];
     
     direction(board,linha,coluna,player,p);
-    for ( int i = 0; i < 8; i++)
-    printf("\n");
-    
-    
 
     for (int i = 0; i < 8; i++)
     {
