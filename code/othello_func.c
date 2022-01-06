@@ -40,8 +40,8 @@ int random(){
 */
 char player(int turn){
     
-    if (turn % 2 == 0) return 'o';
-    else return 'x';    
+    if (turn % 2 == 0) return 'x';
+    else return 'o';    
 }
 
 /*
@@ -277,7 +277,6 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
 }
 
 int next(char board[9][9],char player){
-    printf("A funçao e chamada\n");
     int x = 0;
     char player2 = p2(player);
     char board2[9][9];
@@ -286,28 +285,20 @@ int next(char board[9][9],char player){
             if (board[i1][j1]== '.')
                 x++; 
         }
-    printf("A funçao ve os espaços livres %d \n",x);
     if(x != 0){
         for (int i2 = 0; i2 < 9; i2++)
             for ( int j2 = 0; j2 < 9; j2++)
                 board2[i2][j2] = board[i2][j2];
     }
-    printf("A funcao faz uma copia do board\n");
     for (int i3 = 1; i3 < 9; i3++)
         for ( int j3 = 1; j3 < 9; j3++){
-            printf("passo 1\n");
             if(board[i3][j3]== '.'){
-                printf("passo 2");
                 for (int l=-1;l == -1 || l == 0|| l == 1;l++)
                     for (int c = -1; c == -1 || c == 0 || c == 1;c++){
-                        printf("passo 3");
-                        if(board2[i3+l][j3+c] == player2){
-                            printf("passo 4");
-                        if(checknext(board2,l,c,i3,j3,player)==1){
+                        if(board[i3+l][j3+c] == player2){
+                        if(checknext(board,l,c,i3+l,j3+c,player)==1){
                             board2[i3][j3] = 'q';
-                            printf("passo 5");
                         }
-                        printf("passo 5 mas mal %d %d\n",l,c);
                         }
                     }                       
             }
@@ -320,14 +311,12 @@ int checknext(char board[9][9],int l,int c,int linha,int col,char player){ //est
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
     player2 = p2(player);
-    printf("passo 6");
     if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
         if (c ==1){
-            //printf("2\n");
             while(board[linha][col] == player2){
                 i1++;
                 col++;
-                if (board[linha][col] == player)    
+                if (board[linha][col] == player)   
                     return 1;
             }
         }
@@ -385,7 +374,7 @@ int checknext(char board[9][9],int l,int c,int linha,int col,char player){ //est
                 i7++;
                 linha++;
                 col++;
-                if (board[linha][col] == player)
+                if (board[linha][col] == player && board[linha][col]!='.')
                     return 1;
             }
         }

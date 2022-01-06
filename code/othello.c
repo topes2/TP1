@@ -5,7 +5,7 @@
 int main(){
     
     int linha,col,ordem,m_jogo;
-    int turn=2;
+    int turn=1;
     char coluna[10], board[9][9];
     FILE *f;
 
@@ -58,7 +58,7 @@ parcela do main se existir file jogadas.txt
             
             printf("             Pontuação\n");
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-            next(board,player);
+            next(board,player(turn));
             input(&linha,&col);
             fprintf(f,"%d %d",col,linha);
             printf("linha %d \ncoluna %d\n",linha,col);   
