@@ -182,9 +182,6 @@ void play(char board[9][9],char player, int linha, int coluna){
     }
     for ( int i = 0; i < 8; i++)
         pecasviradas=pecasviradas+ppvirar[i];
-
-    
-    printf("%d peças viradas\n",pecasviradas);
    
 }
 
@@ -199,10 +196,6 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //
     int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
     char player2;
     player2 = p2(player);
-    
-
-    
-    //printf("\n");
     if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
      //printf("1\n");
         if (c ==1){
@@ -313,6 +306,23 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
     }
 }
 
+int next(char board[9][9],char player){
+    int x = 0;
+    char board2[9][9];
+    for (int i = 0; i < 9; i++)
+        for ( int j = 0; j < 9; j++){
+            if (board[i][j]!= ".")
+                x++; 
+        }
+    if(x != 0){
+        for (int i = 0; i < 9; i++)
+            for ( int j = 0; j < 9; j++)
+                board2[i][j] = board[i][j];
+    }
+    print_board(board2);
+
+}
+
 /*
 ###############################################################################################
 ###############################################################################################
@@ -337,6 +347,7 @@ int decode(char letra){
     else
         return (int) 0;
 }
+
 int pontos(char player,char board[9][9]){
     int counter=0;
     for (int i = 0; i < 9; i++)

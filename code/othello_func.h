@@ -23,3 +23,7 @@ int flanked(int ppvirar[8]);
 void printtest(int array[8]);
 
 int pontos(char player,char board[9][9]);
+
+int next(char board[9][9],char player);
+
+char copy(char board[9][9]);

@@ -23,7 +23,7 @@ void main(){
             {  
                 printf("             Pontuação\n");
                 printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-                print_board(board);
+                next(board,player);
                 input(&linha,&col);
                 printf("linha %d \ncoluna %d\n",linha,col);   
                 play(board,player(turn,0),linha,col); 
