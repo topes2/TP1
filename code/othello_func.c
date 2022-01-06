@@ -153,6 +153,12 @@ void play(char board[9][9],char player, int linha, int coluna){
     }
     for ( int i = 0; i < 8; i++)
         pecasviradas=pecasviradas+ppvirar[i];
+<<<<<<< HEAD
+=======
+
+    
+    printf("     %d peças viradas\n",pecasviradas);
+>>>>>>> origin/othello
    
 }
 

@@ -8,7 +8,13 @@ int main(){
     int turn=1;
     char coluna[10], board[9][9];
     FILE *f;
+if (random() % 2 == 0)
+        ordem = 1;
+    else 
+        ordem = 0;
 
+    
+    init_board(board);
 /*
 ###############################################################################################
 parcela do main se existir file jogadas.txt
@@ -23,12 +29,16 @@ parcela do main se existir file jogadas.txt
         printf("             Pontuação\n");
         printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
         print_board(board);
+        printf("    Vez do jogador (%c)\n",player(turn));
         col=decode(coluna[0]);
-        printf("linha %d \ncoluna %d\n",linha,col);   
+        //printf("linha %d \ncoluna %d\n",linha,col);   
         play(board,player(turn),linha,col); 
-            if (board[linha][col]!= player(turn))
+            if (board[linha][col]!= player(turn)){
                  printf(" Jogada invalida\n Jogue outra vez\n");
+                 turn--;
+            }
     };
+        print_board(board);
         return 0;
     }
 /*
@@ -36,35 +46,39 @@ parcela do main se existir file jogadas.txt
 parcela do main se existir file jogadas.txt
 ###############################################################################################
 */
-    if (random() % 2 == 0)
-        ordem = 1;
-    else 
-        ordem = 0;
-
     m_jogo=menu();
-    init_board(board);
-    if ((f = fopen("jogadas.txt","w")) == NULL){
-       printf("Error! opening file");
+    f = fopen("jogadas.txt","w");
 
+<<<<<<< HEAD
        // Program exits if the file pointer returns NULL.
        exit(1);
    }
 
+=======
+>>>>>>> origin/othello
     if(m_jogo=1)
         for (int i = 0; i < 9;)
         { turn++;
         do
         {  
-            
             printf("             Pontuação\n");
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
+<<<<<<< HEAD
             next(board,player(turn));
+=======
+            print_board(board);
+            printf("    Vez do jogador (%c)\n",player(turn));
+>>>>>>> origin/othello
             input(&linha,&col);
-            fprintf(f,"%d %d",col,linha);
-            printf("linha %d \ncoluna %d\n",linha,col);   
+            fprintf(f,"%d %d\n",col,linha);
+            //printf("linha %d \ncoluna %d\n",linha,col);   
             play(board,player(turn),linha,col); 
                 if (board[linha][col]!= player(turn))
                      printf(" Jogada invalida\n Jogue outra vez\n");
+                if(linha == 10){
+                fclose(f);
+                return 0;
+                }
         }while (board[linha][col]!= player(turn)); 
     }
     fclose(f);
