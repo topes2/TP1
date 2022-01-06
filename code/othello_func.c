@@ -155,7 +155,7 @@ void play(char board[9][9],char player, int linha, int coluna){
         pecasviradas=pecasviradas+ppvirar[i];
 
     
-    printf("%d peças viradas\n",pecasviradas);
+    printf("     %d peças viradas\n",pecasviradas);
    
 }
 
