@@ -22,7 +22,7 @@ parcela do main se existir file jogadas.txt
 */
     if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
         
-    while (fscanf(f,"%d %d",&col,&linha)!=EOF)
+    while (fscanf(f,"%d %d",coluna,&linha)!=EOF)
     {  
         
         turn++;
@@ -30,7 +30,7 @@ parcela do main se existir file jogadas.txt
         printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
         print_board(board);
         printf("    Vez do jogador (%c)\n",player(turn));
-        //col=decode(coluna[0]);  
+        col=decode(coluna[0]);  
         play(board,player(turn),linha,col); 
             if (board[linha][col]!= player(turn)){
                  printf(" Jogada invalida\n Jogue outra vez\n");
@@ -42,11 +42,10 @@ parcela do main se existir file jogadas.txt
     }
 /*
 ###############################################################################################
-parcela do main se existir file jogadas.txt
+parcela do main se não existir file jogadas.txt
 ###############################################################################################
 */
     m_jogo=menu();
-    f = fopen("jogadas.txt","w");
 
     if(m_jogo=1){
         int end = 0,temp=0;
@@ -61,15 +60,11 @@ parcela do main se existir file jogadas.txt
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
             next(board,player(turn),1);
             printf("    Vez do jogador (%c)\n",player(turn));
-            input(&linha,&col);
-            fprintf(f,"%d %d\n",col,linha);  
+            input(&linha,&col);  
             play(board,player(turn),linha,col); 
                 if (board[linha][col]!= player(turn))
                      printf(" Jogada invalida\n Jogue outra vez\n");
-                if(linha == 10){
-                fclose(f);
-                return 0;
-                }
+                
         }while (board[linha][col]!= player(turn)); 
     }else if (next(board,player(turn),0) == 0){
         temp++;
@@ -77,6 +72,6 @@ parcela do main se existir file jogadas.txt
         end++;
     }
     }
-    fclose(f);
+    
 }
 }
