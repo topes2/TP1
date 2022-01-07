@@ -2,8 +2,8 @@
 #include <string.h>
 #include "othello_func.h"
 
-int main(){
-    
+int main(int argc, char** argv){
+
     int linha,col,ordem,m_jogo;
     int turn=1;
     char coluna[10], board[9][9];
@@ -20,9 +20,9 @@ if (random() % 2 == 0)
 parcela do main se existir file jogadas.txt
 ###############################################################################################
 */
-    if ((f = fopen("jogadas.txt","r")) != NULL){
+    if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
         
-    while (fscanf(f,"%s %d",coluna,&linha)!=EOF)
+    while (fscanf(f,"%d %d",&col,&linha)!=EOF)
     {  
         
         turn++;
@@ -30,7 +30,7 @@ parcela do main se existir file jogadas.txt
         printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
         print_board(board);
         printf("    Vez do jogador (%c)\n",player(turn));
-        col=decode(coluna[0]);  
+        //col=decode(coluna[0]);  
         play(board,player(turn),linha,col); 
             if (board[linha][col]!= player(turn)){
                  printf(" Jogada invalida\n Jogue outra vez\n");
