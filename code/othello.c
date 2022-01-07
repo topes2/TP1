@@ -53,13 +53,13 @@ parcela do main se existir file jogadas.txt
         while (end != 1)
         { 
         turn++;
-        if (next(board,player(turn)) != 0){
+        if (next(board,player(turn),0) != 0){
         do
         {
             temp=0;  
             printf("             Pontuação\n");
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-            next(board,player(turn));
+            next(board,player(turn),1);
             printf("    Vez do jogador (%c)\n",player(turn));
             input(&linha,&col);
             fprintf(f,"%d %d\n",col,linha);  
@@ -71,7 +71,7 @@ parcela do main se existir file jogadas.txt
                 return 0;
                 }
         }while (board[linha][col]!= player(turn)); 
-    }else if (next(board,player(turn)) == 0){
+    }else if (next(board,player(turn),0) == 0){
         temp++;
         if (temp = 2)
         end++;
