@@ -279,7 +279,7 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
     }
 }
 
-int next(char board[9][9],char player){
+int next(char board[9][9],char player,int mode){
     int x = 0,y=0;
     char player2 = p2(player);
     char board2[9][9];
@@ -308,6 +308,7 @@ int next(char board[9][9],char player){
             }
 
         }
+    if (mode = 1)
     print_board(board2);
     return y;
 }
