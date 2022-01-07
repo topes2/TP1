@@ -153,12 +153,9 @@ void play(char board[9][9],char player, int linha, int coluna){
     }
     for ( int i = 0; i < 8; i++)
         pecasviradas=pecasviradas+ppvirar[i];
-<<<<<<< HEAD
-=======
 
     
     printf("     %d peças viradas\n",pecasviradas);
->>>>>>> origin/othello
    
 }
 
@@ -283,7 +280,7 @@ int direction(char board[9][9],int linha, int col,char player,int *p){
 }
 
 int next(char board[9][9],char player){
-    int x = 0;
+    int x = 0,y=0;
     char player2 = p2(player);
     char board2[9][9];
     for (int i1 = 1; i1 < 9; i1++)
@@ -304,6 +301,7 @@ int next(char board[9][9],char player){
                         if(board[i3+l][j3+c] == player2){
                         if(checknext(board,l,c,i3+l,j3+c,player)==1){
                             board2[i3][j3] = 'q';
+                            y++;
                         }
                         }
                     }                       
@@ -311,6 +309,7 @@ int next(char board[9][9],char player){
 
         }
     print_board(board2);
+    return y;
 }
 
 int checknext(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
