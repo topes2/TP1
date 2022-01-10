@@ -33,10 +33,14 @@ int random(){
     srand(time(NULL));
     int r = rand();
     return r;
-}
+} //temos de tirar
 
 /*
-##############################################################################################################################################################################################
+###############################################################################################
+Funçao player
+Usamos esta funçao com base no integer do turn para mais tarde conseguirmos dizer as funçoes que precisam de saber 
+que player esta jogar de uma maneira mais facil e rapida
+###############################################################################################
 */
 char player(int turn){
     
@@ -50,36 +54,29 @@ char player(int turn){
 char print_board(char tboard[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
-            if (c != 0)
             printf("%c  ", tboard[l][c]);
-            else if(c == 0 && l == 0)
-            printf("  ");
-            else
-            printf("%d ",tboard[l][c]);
         }
         printf("\n");
-        }
+    }
 }
 
 /*
 ###############################################################################################
 ##############################################################################################
 */ 
-void init_board(char tboard[9][9]){
-    for (int l = 0; l <= 9; l++){
-        for (int c = 0; c <= 9; c++){
-            tboard[l][c] = '.';
-            if(l == 4 && c == 4 || l == 5 && c == 5)
-                tboard[l][c] = 'o';
-            else if(l== 4 && c == 5 || l == 5 && c == 4)
-                tboard[l][c]= 'x';  
-            if (l == 0 && c > 0)
-                tboard[l][c] = (char) 64+c;
-            if (c == 0 && l > 0)
-                tboard[l][c] = l;
 
-            }
+void init_board(char tboard[9][9]){
+    for (int i = 1;i< 9;i++){
+        for (int l=1;l< 9;l++){
+            tboard[i][l] = '.';
         }
+        tboard[i][0] = '0'+ i;
+        tboard[0][i]= 'A' +i;
+    }
+
+    tboard[4][5] = tboard[5][4] = 'x';
+    tboard[4][4] = tboard[5][5] = 'o';
+    tboard[0][0] = ' ';
 }
 
 /*
@@ -102,8 +99,13 @@ void input(int *linha,int *col){
     printf("Insira a jogada (coluna e linha)\n");
     scanf(" %c ",&coluna);
     scanf(" %d",linha);
-    *col = decode(coluna);
-    
+
+    if (coluna >= 'a' && coluna <= 'h')
+        *col = coluna - 'a' + 1;
+    else if(coluna >= 'A' && coluna <= 'H')
+        *col = coluna - 'A' + 1;
+    else
+        *col = 0;   
 }
 
 /*
@@ -115,13 +117,13 @@ void play(char board[9][9],char player, int linha, int coluna){
     
     int ppvirar[8]={0,0,0,0,0,0,0,0};
     char player2;
-    int *p;
     int pecasviradas=0;
-    p=&ppvirar[0];
-    
-    direction(board,linha,coluna,player,p);
 
-    for (int i = 0; i < 8; i++)
+    for (int i=0;i<=7;i++){
+        ppvirar[i] = direction(board,linha,coluna,player);
+    }
+
+    for (int i = 0; i <= 7; i++)
     {
         if (ppvirar[i] != 0 )
         { 
@@ -166,94 +168,25 @@ Esta funçao serve para nos vermos se a jogada e valida e se vira alguma peça
 na direcao dada pela funçao direction.
 ###############################################################################################
 */
-int check(char board[9][9],int l,int c,int linha,int col,char player,int *p){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
-    int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
-    char player2;
-    player2 = p2(player);
-    if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
-     //printf("1\n");
-        if (c ==1){
-            //printf("2\n");
-            while(board[linha][col] == player2){
-                //printf("3\n");
-                i1++;
-                col++;
-                if (board[linha][col] == player)    
-                    //printf("4\n");
-                    //printf("%d\n",i1);
-                    *p=i1;
-                    
-            }
-        }
+
+int check(char board[9][9],int l,int c,int linha,int col,char player){
+    char player2 = p2(player);
+    int delta_c=1,delta_l=1,c1,l1,points=0;
+    c1=c;
+    l1=l;
+    while(board[linha][col] == player2){
+        l = l1 * delta_l;
+        c = c1 * delta_c;
+        delta_c++;
+        delta_l++;
+        points++;
+        if(board[linha+l][col+c] == player)
+            return points;
+        else if(delta_c*c1 > 9 || delta_l*l1 > 9){
+            break;
+        }                    
     }
-    if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao sul
-        if (l ==1){
-            while(board[linha][col] == player2){ 
-                i2++;
-                linha++;
-                if (board[linha][col] == player)
-                    *(p+1) = i2;
-                    
-            }
-        }
-    }
-    if (l == 0){ //vemos se ha e contamos as peças do outro jogador na direçao oeste
-        if(c == -1){
-            while(board[linha][col] == player2){
-                i3++;
-                col--;
-                if (board[linha][col] == player)
-                    *(p+2)=i3;
-            }
-        }
-    }
-    if (c == 0){ //vemos se ha e contamos as peças do outro jogador na direçao norte
-        if(l == -1){
-            while(board[linha][col] == player2){
-                i4++;
-                linha--;
-                if (board[linha][col] == player)
-                    *(p+3)=i4;
-            }
-        }
-    }
-        if (l == -1 && c == -1){ //vemos se ha e contamos as peças do outro jogador na direçao noroeste
-            while(board[linha][col] == player2){
-                i5++;
-                linha--;
-                col--;
-                if (board[linha][col] == player)
-                    *(p+4)=i5;
-            }
-        }
-        if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao sudoeste
-            while(board[linha][col] == player2){
-                i6++;
-                linha++;
-                col--;
-                if (board[linha][col] == player)
-                    *(p+5)=i6;
-            }
-        }
-        if (l == 1 && c == 1){   //vemos se ha e contamos as peças do outro jogador na direçao sudeste
-            while(board[linha][col] == player2){
-                i7++;
-                linha++;
-                col++;
-                if (board[linha][col] == player)
-                    *(p+6)=i7;
-            }
-        }
-        if (l == -1 && c == 1){  //vemos se ha e contamos as peças do outro jogador na direçao nordeste
-            while(board[linha][col] == player2){
-                i8++;
-                linha--;
-                col++;
-                if (board[linha][col] == player )
-                    *(p+7)= i8;
-            }
-        }
-    }
+}
 
 /*
 ###############################################################################################
@@ -263,16 +196,14 @@ check, assim evitando algo mais messy.
 Aproveitamos e contamos as peças viradas
 ###############################################################################################
 */
-int direction(char board[9][9],int linha, int col,char player,int *p){
+int direction(char board[9][9],int linha, int col,char player){
     int pecas=0; // quantidade de peças diferentes do jogador actual que esta a jogar
     char player2=p2(player);
-    int i=0;
-
     for (int l=-1;l == -1 || l == 0|| l == 1;l++){
-        for (int c = -1; c == -1 || c == 0 || c == 1;c++,i++){
+        for (int c = -1; c == -1 || c == 0 || c == 1;c++){
             if ( board[linha][col] == '.'){
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    check(board,l,c,linha+l,col+c,player,p);    
+                    return(check(board,l,c,linha+l,col+c,player));
                 }
             }
         }
@@ -308,8 +239,9 @@ int next(char board[9][9],char player,int mode){
             }
 
         }
-    if (mode = 1)
+    if (mode == 1){
     print_board(board2);
+    }
     return y;
 }
 
@@ -399,26 +331,6 @@ int checknext(char board[9][9],int l,int c,int linha,int col,char player){ //est
 ###############################################################################################
 ###############################################################################################
 */
-int decode(char letra){
-    if ((letra == 'a') || (letra == 'A'))
-        return (int) 1;
-    else if ((letra == 'b') || (letra == 'B'))
-        return (int) 2;
-    else if ((letra == 'c') || (letra == 'C')) 
-        return (int) 3;
-    else if (letra == 'd' || letra == 'D')
-        return (int) 4;
-    else if (letra == 'e' || letra == 'E')
-        return (int) 5;
-    else if (letra == 'f' || letra == 'F')
-        return (int) 6;
-    else if (letra == 'g' || letra == 'G')
-        return (int) 7;
-    else if (letra == 'h' || letra == 'H')
-        return (int) 8;
-    else
-        return (int) 0;
-}
 
 int pontos(char player,char board[9][9]){
     int counter=0;

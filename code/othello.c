@@ -8,6 +8,7 @@ int main(int argc, char** argv){
     int turn=1;
     char coluna[10], board[9][9];
     FILE *f;
+    
 if (random() % 2 == 0)
         ordem = 1;
     else 
@@ -30,7 +31,7 @@ parcela do main se existir file jogadas.txt
         printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
         print_board(board);
         printf("    Vez do jogador (%c)\n",player(turn));
-        col=decode(coluna[0]);  
+        //col=decode(coluna[0]);  
         play(board,player(turn),linha,col); 
             if (board[linha][col]!= player(turn)){
                  printf(" Jogada invalida\n Jogue outra vez\n");
@@ -55,12 +56,12 @@ parcela do main se não existir file jogadas.txt
         if (next(board,player(turn),0) != 0){
         do
         {
-            temp=0;  
+            temp=0;
             printf("             Pontuação\n");
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
             next(board,player(turn),1);
             printf("    Vez do jogador (%c)\n",player(turn));
-            input(&linha,&col);  
+            input(&linha,&col);
             play(board,player(turn),linha,col); 
                 if (board[linha][col]!= player(turn))
                      printf(" Jogada invalida\n Jogue outra vez\n");

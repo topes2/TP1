@@ -17,16 +17,19 @@ Temos as 3 regras do jogo:
 3 -->Todas as peças flanqueadas em qualquer movimento devem ser viradas ( mesmo que nao ajudem)
 
 E depois temos as regras que vamos ser obrigados a fazer para o trabalho
---Temos de mostrar as possibilidades de onde por as peças para ambos jogadores(TODO)
+--Temos de mostrar as possibilidades de onde por as peças para ambos jogadores
 --Lugares vazios sao marcados com "."
 --Lugares com pretos sao marcados com "x"
 --Lugares com brancos sao marcados com "o"
 --Começar com o tabuleiro original
---Começar com o tabuleiro custom lido de um ficheiro(TODO)
---Fazer o tabuleiro costum onde o jogador pode por as peças que quiser onde quiser(TODO)
---Terminar o jogo quando quando nao ha mais lugares livres(TODO)
---Contar as peças de cada jogador e mostrar um vencedor(TODO)
+--Começar com o tabuleiro custom lido de um ficheiro
+--Fazer o tabuleiro costum onde o jogador pode por as peças que quiser onde quiser
+--Terminar o jogo quando quando nao ha mais lugares livres
+--Contar as peças de cada jogador e mostrar um vencedor
 --Implementar um tipo de AI (isto e para creditos extra e nao e obrigatorio mas mesmo assim pode darnos mais 2 valores!) (TODO)
+--Limpar codigo(todo)
+--Comentar tudo!(Todo)
+--
 
 ## Fases
 
@@ -106,5 +109,3 @@ e depois
 [6,14,22,30,38,46,54,62]  -->f
 [7,15,23,31,39,47,55,63]  -->g
 [8,16,24,32,40,48,56,64]  -->h
-
-ok entao sao 11pm dia 15/12 eu acho que tenho algumas partes do trabalho feitas mas nao posso testar nada porque o input ta mal feito....
