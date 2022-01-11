@@ -122,7 +122,7 @@ void play(char board[9][9],char player, int linha, int col){
         for (int c = -1, g = 0; c == -1 && g == 0 || c == 0 && g == 1 || c == 1 && g == 2;c++,g++){
             if ( board[linha][col] == '.'){
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    ppvirar[t + g] = (check(board,l,c,linha,col,player));
+                    ppvirar[t + g] = (check(board,l,c,linha,col,player,1));
                 }
             }
         }
@@ -138,7 +138,7 @@ void play(char board[9][9],char player, int linha, int col){
    
 }
 
-int flanked(int ppvirar[9],char board[9][9],int linha,int coluna,char player){
+int flanked(int ppvirar[9],char board[9][9],int linha,int coluna,char player){ //ver de maneira se da para poder diminuir
     for (int i = 0; i <= 8; i++)
     {
         if (ppvirar[i] != 0 )
@@ -179,7 +179,7 @@ na direcao dada pela funçao direction.
 ###############################################################################################
 */
 
-int check(char board[9][9],int l,int c,int linha,int col,char player){
+int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
     char player2 = p2(player);
     int delta_c=1,delta_l=1,c1,l1,points=0;
     c1=c;
@@ -194,9 +194,12 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){
             break;
         }        
     }
-        if(board[linha+l][col+c] == player)
-            return points;
-        else
+        if(board[linha+l][col+c] == player){
+            if (mode == 1)
+                return points;
+            else if (mode == 0)
+                return 1;
+        }else
             return 0;     
 }
 
@@ -220,7 +223,7 @@ int next(char board[9][9],char player,int mode){
                 for (int l=-1;l == -1 || l == 0|| l == 1;l++)
                     for (int c = -1; c == -1 || c == 0 || c == 1;c++){
                         if(board[i3+l][j3+c] == player2){
-                        if(checknext(board,l,c,i3+l,j3+c,player)==1){
+                        if(check(board,l,c,i3,j3,player,0)==1){
                             board2[i3][j3] = 'q';
                             y++;
                         }
@@ -235,87 +238,26 @@ int next(char board[9][9],char player,int mode){
     return y;
 }
 
-int checknext(char board[9][9],int l,int c,int linha,int col,char player){ //esta funçao serve para correr todas as peças ate encontrar ou uma peça do jogador ou um espaço em branco
-    int i1=0,i2=0,i3=0,i4=0,i5=0,i6=0,i7=0,i8=0; // numero de peças do outro jogador entre as peças do jogador nas 8 direçoes
-    char player2;
-    player2 = p2(player);
-    if (l == 0){  //vemos se ha e contamos as peças do outro jogador na direçao este
-        if (c ==1){
-            while(board[linha][col] == player2){
-                i1++;
-                col++;
-                if (board[linha][col] == player)   
-                    return 1;
-            }
-        }
+int checknext(char board[9][9],int l,int c,int linha,int col,char player){
+    char player2 = p2(player);
+    int delta_c=1,delta_l=1,c1,l1,points=0;
+    c1=c;
+    l1=l;
+    while(board[linha + l][col + c] == player2){
+        delta_c++;
+        delta_l++;
+        points++;
+        l = l1 * delta_l;
+        c = c1 * delta_c;        
+        if(delta_c*c1 > 9 || delta_l*l1 > 9){
+            break;
+        }        
     }
-    if (c == 0){  //vemos se ha e contamos as peças do outro jogador na direçao sul
-        if (l ==1){
-            while(board[linha][col] == player2){ 
-                i2++;
-                linha++;
-                if (board[linha][col] == player)
-                    return 1;
-            }
-        }
-    }
-    if (l == 0){ //vemos se ha e contamos as peças do outro jogador na direçao oeste
-        if(c == -1){
-            while(board[linha][col] == player2){
-                i3++;
-                col--;
-                if (board[linha][col] == player)
-                    return 1;
-            }
-        }
-    }
-    if (c == 0){ //vemos se ha e contamos as peças do outro jogador na direçao norte
-        if(l == -1){
-            while(board[linha][col] == player2){
-                i4++;
-                linha--;
-                if (board[linha][col] == player)
-                    return 1;
-            }
-        }
-    }
-        if (l == -1 && c == -1){ //vemos se ha e contamos as peças do outro jogador na direçao noroeste
-            while(board[linha][col] == player2){
-                i5++;
-                linha--;
-                col--;
-                if (board[linha][col] == player)
-                    return 1;
-            }
-        }
-        if (l == 1 && c == -1){  //vemos se ha e contamos as peças do outro jogador na direçao sudoeste
-            while(board[linha][col] == player2){
-                i6++;
-                linha++;
-                col--;
-                if (board[linha][col] == player)
-                    return 1;
-            }
-        }
-        if (l == 1 && c == 1){   //vemos se ha e contamos as peças do outro jogador na direçao sudeste
-            while(board[linha][col] == player2){
-                i7++;
-                linha++;
-                col++;
-                if (board[linha][col] == player && board[linha][col]!='.')
-                    return 1;
-            }
-        }
-        if (l == -1 && c == 1){  //vemos se ha e contamos as peças do outro jogador na direçao nordeste
-            while(board[linha][col] == player2){
-                i8++;
-                linha--;
-                col++;
-                if (board[linha][col] == player )
-                    return 1;
-            }
-        }
-    }
+        if(board[linha+l][col+c] == player)
+            return points;
+        else
+            return 0;     
+}
 
 /*
 ###############################################################################################
