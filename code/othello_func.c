@@ -122,26 +122,17 @@ void play(char board[9][9],char player, int linha, int col){
         for (int c = -1, g = 0; c == -1 && g == 0 || c == 0 && g == 1 || c == 1 && g == 2;c++,g++){
             if ( board[linha][col] == '.'){
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-<<<<<<< HEAD
-                    if(ppvirar[t + g] = (check(board,l,c,linha,col,player))!= 0)
+                    if(ppvirar[t + g] = (check(board,l,c,linha,col,player,0))!= 0)
                         flanked(board,l,c,linha,col,player);
-=======
-                    ppvirar[t + g] = (check(board,l,c,linha,col,player,1));
->>>>>>> 636a84e6fa1c4f9038a174e3b6db453aa705769b
                 }
             }
         }
     }
     
-    for ( int i = 0; i <= 8; i++)
-        pecasviradas=pecasviradas+ppvirar[i];
-        
-
     printf("     %d peças viradas\n",pecasviradas);
    
 }
 
-<<<<<<< HEAD
 int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
    
     char player2 = p2(player);
@@ -161,38 +152,6 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
         if(delta_c*c1 > 9 || delta_l*l1 > 9){
             break;
         }        
-=======
-int flanked(int ppvirar[9],char board[9][9],int linha,int coluna,char player){ //ver de maneira se da para poder diminuir
-    for (int i = 0; i <= 8; i++)
-    {
-        if (ppvirar[i] != 0 )
-        { 
-            if (i==0)// direção cima esquerda
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j--, viradas++ )
-                    board[m][j] = player;
-             else if (i==1)// direção cima 
-                for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j--, viradas++ )
-                    board[j][coluna] = player;
-            else if (i==2)// direção cima direita
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j++, viradas++ )
-                    board[m][j] = player;
-            else if (i==3)// direção esquerda
-                for ( int j = coluna, viradas=0; viradas <=  ppvirar[i] ; j--, viradas++ )
-                    board[linha][j] = player;
-            else if (i==5)// mesmo no direita
-                for ( int j = coluna, viradas=0; viradas <=  ppvirar[i] ;j++, viradas++ )
-                    board[linha][j] = player; 
-            else if (i==6)// direção aixo esquerda
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j--, viradas++ )
-                    board[m][j] = player;
-            else if (i==7)// direção baixo 
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , viradas++ )
-                    board[m][j] = player;     
-            else if (i==8)// direção baixo direita
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j++, viradas++ )
-                    board[m][j] = player;            
-        }
->>>>>>> 636a84e6fa1c4f9038a174e3b6db453aa705769b
     }
 
 }
@@ -220,16 +179,6 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
         if(delta_c*c1 > 9 || delta_l*l1 > 9){
             break;
         }        
-<<<<<<< HEAD
-    
-        if(board[linha+l][col+c] == player)
-            return points;
-        else
-            return 0;   
-    }
-    
-        
-=======
     }
         if(board[linha+l][col+c] == player){
             if (mode == 1)
@@ -238,7 +187,6 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
                 return 1;
         }else
             return 0;     
->>>>>>> 636a84e6fa1c4f9038a174e3b6db453aa705769b
 }
 
 int next(char board[9][9],char player,int mode){
@@ -274,27 +222,6 @@ int next(char board[9][9],char player,int mode){
     print_board(board2);
     }
     return y;
-}
-
-int checknext(char board[9][9],int l,int c,int linha,int col,char player){
-    char player2 = p2(player);
-    int delta_c=1,delta_l=1,c1,l1,points=0;
-    c1=c;
-    l1=l;
-    while(board[linha + l][col + c] == player2){
-        delta_c++;
-        delta_l++;
-        points++;
-        l = l1 * delta_l;
-        c = c1 * delta_c;        
-        if(delta_c*c1 > 9 || delta_l*l1 > 9){
-            break;
-        }        
-    }
-        if(board[linha+l][col+c] == player)
-            return points;
-        else
-            return 0;     
 }
 
 /*
