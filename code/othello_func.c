@@ -118,8 +118,8 @@ void play(char board[9][9],char player, int linha, int col){
     int ppvirar[9]={0,0,0,0,0,0,0,0,0};
     char player2=p2(player);
     int pecasviradas=0;
-    for (int l =-1,t = 0;l == -1 && t == 0 || l == 0 && t == 3 || l == 1 && t == 6;l++,t = t+3){
-        for (int c = -1, g = 0; c == -1 && g == 0 || c == 0 && g == 1 || c == 1 && g == 2;c++,g++){
+    for (int l =-1,t = 0; l<= 1 ;l++,t = t+3){
+        for (int c = -1, g = 0; c <= 1;c++,g++){
             if ( board[linha][col] == '.'){
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
                     if(ppvirar[t + g] = (check(board,l,c,linha,col,player,0))!= 0)
