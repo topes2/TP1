@@ -2,8 +2,6 @@ char print_board(char tboard[9][9]);
 
 void init_board(char tboard[9][9]);
 
-//int direction(char board[9][9],int linha, int col,char player);
-
 int flanked(char board[9][9],int l,int c,int linha,int coluna,char player);
 
 int check(char board[9][9],int l,int c,int linha,int col,char player,int mode);
@@ -27,3 +25,5 @@ int pontos(char player,char board[9][9]);
 int next(char board[9][9],char player,int mode);
 
 char copy(char board[9][9]);
+
+int gameloop(char board[9][9],int turn); //faço ja isto aqui so para preparar o bot

@@ -3,13 +3,7 @@
 #include "othello_func.h"
 
 int linha,col;
-/*
-###############################################################################################
-Funçao menu
-Simplesmente mostra um menu ao user de mode para fazer a escolha do modo que quer jogar
-se for contra o pc ou contra outra pessoa
-###############################################################################################
-*/
+
 int menu(){
     int mainmode;
     printf("Bem vindo a Othello por Andre e Diogo\n");
@@ -23,34 +17,19 @@ int menu(){
 
     return mainmode;
 }
-/*
-###############################################################################################
-Funçao para fazer um numero aleatorio para poder ter uma ordem de jogadores random
-usa a lib time.h
-###############################################################################################
-*/
+
 int random(){
     srand(time(NULL));
     int r = rand();
     return r;
 } //temos de tirar
 
-/*
-###############################################################################################
-Funçao player
-Usamos esta funçao com base no integer do turn para mais tarde conseguirmos dizer as funçoes que precisam de saber 
-que player esta jogar de uma maneira mais facil e rapida
-###############################################################################################
-*/
 char player(int turn){
     
     if (turn % 2 == 0) return 'x';
     else return 'o';    
 }
 
-/*
-##############################################################################################################################################################################################
-*/
 char print_board(char tboard[9][9]){
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
@@ -59,11 +38,6 @@ char print_board(char tboard[9][9]){
         printf("\n");
     }
 }
-
-/*
-###############################################################################################
-##############################################################################################
-*/ 
 
 void init_board(char tboard[9][9]){
     for (int i = 1;i< 9;i++){
@@ -79,26 +53,22 @@ void init_board(char tboard[9][9]){
     tboard[0][0] = ' ';
 }
 
-/*
-###############################################################################################
-##############################################################################################
-*/
 char p2(char player){
     if (player=='x') return 'o';
     else return 'x';
  }
 
-/*
-###############################################################################################
-Funçao Input
-###############################################################################################
-*/
 void input(int *linha,int *col){
     char coluna;
     int linhatemp;
     printf("Insira a jogada (linha coluna)\n");
     scanf("%d",linha);
     scanf("%c",&coluna);
+    while (!(*linha >= 1 && *linha <= 8 && coluna>='a' && coluna <= 'h' || coluna >= 'A' && coluna <= 'H')){
+    printf("Insira um par de coordenadas validas ( linha colunas)\n");
+    scanf("%d",linha);
+    scanf("%c",&coluna);
+    }
 
     if (coluna >= 'a' && coluna <= 'h')
         *col = coluna - 'a' + 1;
@@ -108,27 +78,28 @@ void input(int *linha,int *col){
         *col = 0;
 }
 
-/*
-###############################################################################################
-Funçao Play
-###############################################################################################
-*/
 void play(char board[9][9],char player, int linha, int col){
     
     int ppvirar[9]={0,0,0,0,0,0,0,0,0};
     char player2=p2(player);
-    int pecasviradas=0;
-    for (int l =-1,t = 0;l == -1 && t == 0 || l == 0 && t == 3 || l == 1 && t == 6;l++,t = t+3){
-        for (int c = -1, g = 0; c == -1 && g == 0 || c == 0 && g == 1 || c == 1 && g == 2;c++,g++){
+    int pecasviradas=0,lp=0;
+    for (int l =-1,t = 0;l<=1;l++,t = t+3){
+        for (int c = -1, g = 0; c<=1;c++,g++){
             if ( board[linha][col] == '.'){
                 if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    if(ppvirar[t + g] = (check(board,l,c,linha,col,player,0))!= 0)
+                    if(ppvirar[t + g] = (check(board,l,c,linha,col,player,0))!= 0){
                         flanked(board,l,c,linha,col,player);
+                        lp++;
+                    }
                 }
             }
         }
     }
-    
+    if(lp != 0)
+    board[linha][col]=player;
+    for(int i = 0;i<=8;i++){
+        pecasviradas = ppvirar[i] + pecasviradas;
+    }
     printf("     %d peças viradas\n",pecasviradas);
    
 }
@@ -137,31 +108,20 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
    
     char player2 = p2(player);
     int delta_c=1,delta_l=1,c1,l1;
-
     c1=c;
     l1=l;
-    board[linha][col]=player;
-
-    while(board[linha + l][col + c] == player2){
+    while(board[linha + l][coluna + c] == player2){
+        board[linha + l][coluna + c]=player;
         delta_c++;
         delta_l++;
         l = l1 * delta_l;
         c = c1 * delta_c;        
-        board[linha + l][col + c]=player;
-
         if(delta_c*c1 > 9 || delta_l*l1 > 9){
             break;
-        }        
+        }
     }
-
+    print_board(board);
 }
-/*
-###############################################################################################
-Funçao Check
-Esta funçao serve para nos vermos se a jogada e valida e se vira alguma peça
-na direcao dada pela funçao direction.
-###############################################################################################
-*/
 
 int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
     char player2 = p2(player);
@@ -224,11 +184,6 @@ int next(char board[9][9],char player,int mode){
     return y;
 }
 
-/*
-###############################################################################################
-###############################################################################################
-*/
-
 int pontos(char player,char board[9][9]){
     int counter=0;
     for (int i = 0; i < 9; i++)
@@ -236,4 +191,31 @@ int pontos(char player,char board[9][9]){
             if (board[i][j]== player) counter++;
 
     return counter;       
+}
+
+int gameloop(char board[9][9],int turn){
+    int temp=0,end=0;
+        while (end != 1)
+        { 
+        turn++;
+        if (next(board,player(turn),0) != 0){
+        do
+        {
+            temp=0;
+            printf("             Pontuação\n");
+            printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
+            next(board,player(turn),1);
+            printf("    Vez do jogador (%c)\n",player(turn));
+            input(&linha,&col);
+            play(board,player(turn),linha,col); 
+                if (board[linha][col]!= player(turn))
+                     printf(" Jogada invalida\n Jogue outra vez\n");
+                
+        }while (board[linha][col]!= player(turn)); 
+    }else if (next(board,player(turn),0) == 0){
+        temp++;
+        if (temp = 2)
+        end++;
+    }
+    }
 }
