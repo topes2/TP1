@@ -96,16 +96,16 @@ Funçao Input
 void input(int *linha,int *col){
     char coluna;
     int linhatemp;
-    printf("Insira a jogada (coluna e linha)\n");
-    scanf(" %c ",&coluna);
-    scanf(" %d",linha);
+    printf("Insira a jogada (linha coluna)\n");
+    scanf("%d",linha);
+    scanf("%c",&coluna);
 
     if (coluna >= 'a' && coluna <= 'h')
         *col = coluna - 'a' + 1;
     else if(coluna >= 'A' && coluna <= 'H')
         *col = coluna - 'A' + 1;
     else
-        *col = 0;   
+        *col = 0;
 }
 
 /*
@@ -139,7 +139,7 @@ void play(char board[9][9],char player, int linha, int col){
 }
 
 int flanked(int ppvirar[9],char board[9][9],int linha,int coluna,char player){
-    for (int i = 0; i <= 7; i++)
+    for (int i = 0; i <= 8; i++)
     {
         if (ppvirar[i] != 0 )
         { 
@@ -198,28 +198,6 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){
             return points;
         else
             return 0;     
-}
-
-/*
-###############################################################################################
-Funçao Direction
-Usamos esta funçao como a maneira de ter umas das 8 direçoes para usar depois na funcao de 
-check, assim evitando algo mais messy. 
-Aproveitamos e contamos as peças viradas
-###############################################################################################
-*/
-int direction(char board[9][9],int linha, int col,char player){
-    int pecas=0; // quantidade de peças diferentes do jogador actual que esta a jogar
-    char player2=p2(player);
-    for (int l=-1;l == -1 || l == 0|| l == 1;l++){
-        for (int c = -1; c == -1 || c == 0 || c == 1;c++){
-            if ( board[linha][col] == '.'){
-                if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    return(check(board,l,c,linha+l,col+c,player));
-                }
-            }
-        }
-    }
 }
 
 int next(char board[9][9],char player,int mode){
