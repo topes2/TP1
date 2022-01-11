@@ -71,7 +71,7 @@ void init_board(char tboard[9][9]){
             tboard[i][l] = '.';
         }
         tboard[i][0] = '0'+ i;
-        tboard[0][i]= 'A' +i;
+        tboard[0][i]= 'A' + i -1;
     }
 
     tboard[4][5] = tboard[5][4] = 'x';
@@ -113,52 +113,62 @@ void input(int *linha,int *col){
 Funçao Play
 ###############################################################################################
 */
-void play(char board[9][9],char player, int linha, int coluna){
+void play(char board[9][9],char player, int linha, int col){
     
-    int ppvirar[8]={0,0,0,0,0,0,0,0};
-    char player2;
+    int ppvirar[9]={0,0,0,0,0,0,0,0,0};
+    char player2=p2(player);
     int pecasviradas=0;
-
-    for (int i=0;i<=7;i++){
-        ppvirar[i] = direction(board,linha,coluna,player);
-    }
-
-    for (int i = 0; i <= 7; i++)
-    {
-        if (ppvirar[i] != 0 )
-        { 
-            if (i==0)// direção este
-                for ( int j = coluna, viradas=0; viradas <= ppvirar[i] ; j++, viradas++ )
-                    board[linha][j] = player;
-             else if (i==1)// direção sul
-                for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j++, viradas++ )
-                    board[j][coluna] = player;
-            else if (i==2)// direção oeste
-                for ( int j = coluna, viradas=0; viradas <=  ppvirar[i]; j--, viradas++ )
-                    board[linha][j] = player;
-            else if (i==3)// direção norte
-                for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j--, viradas++ )
-                    board[j][coluna] = player;
-            else if (i==4)// direção noroeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j--, viradas++ )
-                    board[m][j] = player; 
-            else if (i==5)// direção suldoeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j--, viradas++ )
-                    board[m][j] = player;
-            else if (i==6)// direção suldeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j++, viradas++ )
-                    board[m][j] = player;     
-            else if (i==7)// direção nordeste
-                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j++, viradas++ )
-                    board[m][j] = player;            
+    for (int l =-1,t = 0;l == -1 && t == 0 || l == 0 && t == 3 || l == 1 && t == 6;l++,t = t+3){
+        for (int c = -1, g = 0; c == -1 && g == 0 || c == 0 && g == 1 || c == 1 && g == 2;c++,g++){
+            if ( board[linha][col] == '.'){
+                if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
+                    ppvirar[t + g] = (check(board,l,c,linha,col,player));
+                }
+            }
         }
     }
-    for ( int i = 0; i < 8; i++)
+    
+    for ( int i = 0; i <= 8; i++)
         pecasviradas=pecasviradas+ppvirar[i];
+        
+    flanked(ppvirar,board,linha,col,player);
 
     
     printf("     %d peças viradas\n",pecasviradas);
    
+}
+
+int flanked(int ppvirar[9],char board[9][9],int linha,int coluna,char player){
+    for (int i = 0; i <= 7; i++)
+    {
+        if (ppvirar[i] != 0 )
+        { 
+            if (i==0)// direção cima esquerda
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j--, viradas++ )
+                    board[m][j] = player;
+             else if (i==1)// direção cima 
+                for ( int j = linha, viradas=0; viradas <=  ppvirar[i] ; j--, viradas++ )
+                    board[j][coluna] = player;
+            else if (i==2)// direção cima direita
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m-- , j++, viradas++ )
+                    board[m][j] = player;
+            else if (i==3)// direção esquerda
+                for ( int j = coluna, viradas=0; viradas <=  ppvirar[i] ; j--, viradas++ )
+                    board[linha][j] = player;
+            else if (i==5)// mesmo no direita
+                for ( int j = coluna, viradas=0; viradas <=  ppvirar[i] ;j++, viradas++ )
+                    board[linha][j] = player; 
+            else if (i==6)// direção aixo esquerda
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j--, viradas++ )
+                    board[m][j] = player;
+            else if (i==7)// direção baixo 
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , viradas++ )
+                    board[m][j] = player;     
+            else if (i==8)// direção baixo direita
+                for ( int m = linha ,j = coluna, viradas=0; viradas <=  ppvirar[i] ;m++ , j++, viradas++ )
+                    board[m][j] = player;            
+        }
+    }
 }
 
 /*
@@ -174,18 +184,20 @@ int check(char board[9][9],int l,int c,int linha,int col,char player){
     int delta_c=1,delta_l=1,c1,l1,points=0;
     c1=c;
     l1=l;
-    while(board[linha][col] == player2){
-        l = l1 * delta_l;
-        c = c1 * delta_c;
+    while(board[linha + l][col + c] == player2){
         delta_c++;
         delta_l++;
         points++;
+        l = l1 * delta_l;
+        c = c1 * delta_c;        
+        if(delta_c*c1 > 9 || delta_l*l1 > 9){
+            break;
+        }        
+    }
         if(board[linha+l][col+c] == player)
             return points;
-        else if(delta_c*c1 > 9 || delta_l*l1 > 9){
-            break;
-        }                    
-    }
+        else
+            return 0;     
 }
 
 /*

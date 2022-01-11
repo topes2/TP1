@@ -2,13 +2,15 @@ char print_board(char tboard[9][9]);
 
 void init_board(char tboard[9][9]);
 
-int direction(char board[9][9],int linha, int col,char player);
+//int direction(char board[9][9],int linha, int col,char player);
+
+int flanked(int ppvirar[9],char board[9][9],int linha,int coluna,char player);
 
 int check(char board[9][9],int l,int c,int linha,int col,char player);
 
 int checknext(char board[9][9],int l,int c,int linha,int col,char player);
 
-void play(char board[9][9],char player, int linha, int coluna);
+void play(char board[9][9],char player, int linha, int col);
 
 char player(int turn);
 
@@ -17,8 +19,6 @@ void input(int *linha,int *col);
 int menu();
 
 int random();
-
-int flanked(int ppvirar[8]);
 
 void printtest(int array[8]);
 
