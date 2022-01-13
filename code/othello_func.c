@@ -140,14 +140,16 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
 
     c1=c;
     l1=l;
-    board[linha][col]=player;
+    board[linha][coluna]=player;
 
     while(board[linha + l][col + c] == player2){
+        board[linha + l][col + c]=player;
+
         delta_c++;
         delta_l++;
         l = l1 * delta_l;
         c = c1 * delta_c;        
-        board[linha + l][col + c]=player;
+        
 
         if(delta_c*c1 > 9 || delta_l*l1 > 9){
             break;
