@@ -3,6 +3,12 @@
 #include "othello_func.h"
 
 int linha,col;
+struct strk_bot
+{
+    int pontos;
+    char bboard[9][9];
+    int linha_bot,coluna_bot;
+};
 
 int menu(){
     int mainmode;
@@ -85,9 +91,10 @@ void play(char board[9][9],char player, int linha, int col){
     int pecasviradas=0,lp=0;
     for (int l =-1,t = 0;l<=1;l++,t = t+3){
         for (int c = -1, g = 0; c<=1;c++,g++){
-            if ( board[linha][col] == '.'){
-                if ( board[linha+l][col+c] == player2 && linha+l < 9 && col+c < 9 && linha+l > 0 && col+c > 0){
-                    if(ppvirar[t + g] = (check(board,l,c,linha,col,player,0))!= 0){
+            if ( board[linha][col] == 'q'){
+                if ( board[linha+l][col+c] == player2 ){
+                    if((ppvirar[t + g] = check(board,l,c,linha,col,player,0))== 1){
+                        printf("%d %d \n",l,c);
                         flanked(board,l,c,linha,col,player);
                         lp++;
                     }
@@ -116,11 +123,9 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
         delta_l++;
         l = l1 * delta_l;
         c = c1 * delta_c;        
-        if(delta_c*c1 > 9 || delta_l*l1 > 9){
-            break;
-        }
+        
     }
-    print_board(board);
+    
 }
 
 int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
@@ -149,20 +154,16 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
             return 0;     
 }
 
-int next(char board[9][9],char player,int mode){
-    int x = 0,y=0;
+int next(char board[9][9],char player){
+    int y=0;
     char player2 = p2(player);
-    char board2[9][9];
+    
     for (int i1 = 1; i1 < 9; i1++)
         for ( int j1 = 1; j1 < 9; j1++){
-            if (board[i1][j1]== '.')
-                x++; 
+            if (board[i1][j1]== 'q')
+                board[i1][j1]='.'; 
         }
-    if(x != 0){
-        for (int i2 = 0; i2 < 9; i2++)
-            for ( int j2 = 0; j2 < 9; j2++)
-                board2[i2][j2] = board[i2][j2];
-    }
+  
     for (int i3 = 1; i3 < 9; i3++)
         for ( int j3 = 1; j3 < 9; j3++){
             if(board[i3][j3]== '.'){
@@ -170,7 +171,7 @@ int next(char board[9][9],char player,int mode){
                     for (int c = -1; c == -1 || c == 0 || c == 1;c++){
                         if(board[i3+l][j3+c] == player2){
                         if(check(board,l,c,i3,j3,player,0)==1){
-                            board2[i3][j3] = 'q';
+                            board[i3][j3] = 'q';
                             y++;
                         }
                         }
@@ -178,9 +179,7 @@ int next(char board[9][9],char player,int mode){
             }
 
         }
-    if (mode == 1){
-    print_board(board2);
-    }
+    
     return y;
 }
 
@@ -198,13 +197,14 @@ int gameloop(char board[9][9],int turn){
         while (end != 1)
         { 
         turn++;
-        if (next(board,player(turn),0) != 0){
+        if (next(board,player(turn)) != 0){
         do
         {
             temp=0;
             printf("             Pontuação\n");
             printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-            next(board,player(turn),1);
+            next(board,player(turn));
+            print_board(board);
             printf("    Vez do jogador (%c)\n",player(turn));
             input(&linha,&col);
             play(board,player(turn),linha,col); 
@@ -212,10 +212,89 @@ int gameloop(char board[9][9],int turn){
                      printf(" Jogada invalida\n Jogue outra vez\n");
                 
         }while (board[linha][col]!= player(turn)); 
-    }else if (next(board,player(turn),0) == 0){
+    }else if (next(board,player(turn)) == 0){
         temp++;
         if (temp = 2)
         end++;
     }
     }
+}
+
+//######################################################################################
+//BOT
+//#######################################################################################
+void copy_board(char bboard[9][9],char board[9][9]){
+
+    for (int i = 1; i < 9; i++)
+        for (int j = 1; j < 9; j++)
+        {
+            bboard[i][j]=board[i][j];
+        }
+        
+}
+/*int maior(struct strk_bot bot[64],int sz){
+
+    int maior=bot[0].pontos;
+    int indice_maior;
+    for (int i = 0; i < sz; i++)
+        if (maior < bot[i].pontos)
+        {
+            maior=bot[i].pontos;
+            indice_maior=i;
+        }
+        
+    return indice_maior;
+
+}*/
+int pont_bot(char   board[9][9],char player){
+    int pontos=0;
+    for (int i = 1; i < 9; i++)
+        for (int j = 1; j < 9; j++){
+            if(board[i][j]==player); 
+                if ((i==1 && j==1)||(i==1 && j==8)||(i==8 && j==8)||(i==8 && j==1)) //verifica se há peças do bot nas casas dos cantos e atribui +10 pontos á jogada
+                pontos+=10;
+                else if(i==1 || i == 8 || j==1 || j==8 )//verifica se há peças do bot nas bordas do tabuleito e atribui +5 aos pontos
+                pontos+=5;
+                else // atribui +1 aos pontos por cada peça que encontrar que não esteja em cantos ou bordas
+                pontos ++;
+        }    
+
+    return pontos;
+}
+void bot(char board[9][9],char player){
+
+    struct strk_bot bot[64]; /* numero da stack do minecraft*/
+    int k=0,melhor_jogada,maior;
+    
+    for (int i = 1; i < 9; i++)
+        for (int j = 1; j < 9; j++)
+        {
+            if ( board[i][j]== 'q')
+            {
+                copy_board(bot[k].bboard,board);
+                play(bot[k].bboard,player,i,j);
+                bot[k].coluna_bot=j;
+                bot[k].linha_bot=i;
+                k++;
+                board[i][j]= '.';
+            }  
+        }
+    
+    for ( int i = 0; i < k; i++)
+    {
+        bot[i].pontos=pont_bot(board,player);
+    }
+
+    maior=bot[0].pontos;
+    for (int i = 0; i < k; i++)
+        if (maior < bot[i].pontos)
+        {
+            maior=bot[i].pontos;
+            melhor_jogada=i;
+        }
+
+    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot);
+
+    
+
 }

@@ -26,7 +26,7 @@ if (random() % 2 == 0)
 ###############################################################################################
 parcela do main se existir file jogadas.txt
 ###############################################################################################
-*/
+
     if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
         
     while (fscanf(f,"%d %c",&linha,&coluna)!=EOF)
@@ -34,7 +34,7 @@ parcela do main se existir file jogadas.txt
         turn++;
         printf("             Pontuação\n");
         printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-        next(board,player(turn),1);
+        next(board,player(turn));
         printf("    Vez do jogador (%c)\n",player(turn)); 
         play(board,player(turn),linha,col); 
             if (board[linha][col]!= player(turn)){
@@ -42,10 +42,10 @@ parcela do main se existir file jogadas.txt
                  turn--;
             }
     };
-        next(board,player(turn),0);
+        next(board,player(turn));
         fclose(f); //fechar o file
         gameloop(board,turn);
         return 0;
     }
-
+*/
 }
