@@ -244,6 +244,18 @@ int maior(strk_bot bot[32],int sz){
     return indice_maior;
 
 }
+int maior_bot2(seg_bot segundo_bot[20],int sz){
+    
+    int max=segundo_bot[0].pontos,indice=0;
+    
+    for (int i = 0; i < sz; i++)
+        if (max < segundo_bot[i].pontos)
+        {
+            max = segundo_bot[i].pontos;
+            indice = i;
+        }
+    return indice;     
+}
 int pont_bot(char   board[9][9],char player){
     int pontos=0;
     for (int i = 1; i < 9; i++)
@@ -259,10 +271,34 @@ int pont_bot(char   board[9][9],char player){
 
     return pontos;
 }
+    
+void bot_segunda_jogada(strk_bot bot[32],int sz,char player2){
+
+
+    for (int l = 0,k = 0; k < sz; k++){
+        next(bot[k].bboard,player2);
+        for (int i = 1; i < 9; i++){
+            for (int j = 1; j < 9; j++){
+                if ( bot[k].bboard[i][j] == 'q')
+                {
+                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard);
+                    play(bot[k].segbot[l].seg_bboard,player2,i,j,0);
+                    bot[k].segbot[l].seg_coluna_bot=j;
+                    bot[k].segbot[l].seg_linha_bot=i;
+                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player2);
+                    l++;
+                    bot[k].bboard[i][j] = 'b';
+                }  
+            }
+        }
+        bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;
+    }
+}
 void bot(char board[9][9],char player){
 
     strk_bot bot[32]; /* numero da stack do minecraft*/
-    int k=0,melhor_jogada=0,maiore;
+    int k=0,melhor_jogada=0;
+    char player2=p2(player);
     
     for (int i = 1; i < 9; i++)
         for (int j = 1; j < 9; j++)
@@ -273,26 +309,15 @@ void bot(char board[9][9],char player){
                 play(bot[k].bboard,player,i,j,0);
                 bot[k].coluna_bot=j;
                 bot[k].linha_bot=i;
+                bot[k].pontos=pont_bot(board,player);
                 k++;
                 board[i][j]= 'b';
 
             }  
         }
-    
-    for ( int i = 0; i < k; i++)
-    {
-        bot[i].pontos=pont_bot(board,player);
-    }
-
-//    maiore=bot[0].pontos;
-  //  for (int i = 0; i < k; i++)
-    //    if (maiore < bot[i].pontos)
-      //  {
-        //    maiore=bot[i].pontos;
-          //  melhor_jogada=i;
-        //}
 
     melhor_jogada= maior(bot,k);
+
     play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);
     
 
