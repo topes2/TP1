@@ -257,24 +257,30 @@ int maior_bot2(seg_bot segundo_bot[20],int sz){
     return indice;     
 }
 int pont_bot(char   board[9][9],char player){
+    char player2= p2(player);
     int pontos=0;
     for (int i = 1; i < 9; i++)
         for (int j = 1; j < 9; j++){
-            if(board[i][j]==player); 
+            if(board[i][j]==player){
                 if ((i==1 && j==1)||(i==1 && j==8)||(i==8 && j==8)||(i==8 && j==1)) //verifica se há peças do bot nas casas dos cantos e atribui +10 pontos á jogada
                 pontos+=10;
                 else if(i==1 || i == 8 || j==1 || j==8 )//verifica se há peças do bot nas bordas do tabuleito e atribui +5 aos pontos
                 pontos+=5;
                 else // atribui +1 aos pontos por cada peça que encontrar que não esteja em cantos ou bordas
                 pontos ++;
-        }    
+            }
+            else if (board[i][j]==player2)
+            {
+                pontos--;
+            }
+        }
 
     return pontos;
 }
     
-void bot_segunda_jogada(strk_bot bot[32],int sz,char player2){
-
-
+void bot_segunda_jogada(strk_bot bot[32],int sz,char player){
+    
+    char player2 = p2(player);
     for (int l = 0,k = 0; k < sz; k++){
         next(bot[k].bboard,player2);
         for (int i = 1; i < 9; i++){
@@ -285,7 +291,7 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player2){
                     play(bot[k].segbot[l].seg_bboard,player2,i,j,0);
                     bot[k].segbot[l].seg_coluna_bot=j;
                     bot[k].segbot[l].seg_linha_bot=i;
-                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player2);
+                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player);
                     l++;
                     bot[k].bboard[i][j] = 'b';
                 }  
@@ -297,8 +303,8 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player2){
 void bot(char board[9][9],char player){
 
     strk_bot bot[32]; /* numero da stack do minecraft*/
-    int k=0,melhor_jogada=0;
-    char player2=p2(player);
+    int k=0,melhor_jogada;
+    
     
     for (int i = 1; i < 9; i++)
         for (int j = 1; j < 9; j++)
@@ -316,7 +322,9 @@ void bot(char board[9][9],char player){
             }  
         }
 
-    melhor_jogada= maior(bot,k);
+    bot_segunda_jogada(bot,k,player);
+
+    melhor_jogada = maior(bot,k);
 
     play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);
     
