@@ -8,7 +8,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode);
 
 int checknext(char board[9][9],int l,int c,int linha,int col,char player);
 
-void play(char board[9][9],char player, int linha, int col);
+void play(char board[9][9],char player, int linha, int col,int mode);
 
 char player(int turn);
 

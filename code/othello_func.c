@@ -3,6 +3,10 @@
 #include "othello_func.h"
 
 int linha,col;
+struct bot_seg{
+    
+
+};
 struct strk_bot
 {
     int pontos;
@@ -84,31 +88,29 @@ void input(int *linha,int *col){
         *col = 0;
 }
 
-void play(char board[9][9],char player, int linha, int col){
+void play(char board[9][9],char player, int linha, int col,int mode){
     
     int ppvirar[9]={0,0,0,0,0,0,0,0,0};
     char player2=p2(player);
     int pecasviradas=0,lp=0;
     for (int l =-1,t = 0;l<=1;l++,t = t+3){
         for (int c = -1, g = 0; c<=1;c++,g++){
-            if ( board[linha][col] == 'q'){
+            if ( board[linha][col] == 'q' || board[linha][col] == 'b'){
                 if ( board[linha+l][col+c] == player2 ){
                     if((ppvirar[t + g] = check(board,l,c,linha,col,player,0))== 1){
-                        printf("%d %d \n",l,c);
                         flanked(board,l,c,linha,col,player);
-                        lp++;
                     }
                 }
             }
         }
     }
-    if(lp != 0)
-    board[linha][col]=player;
-    for(int i = 0;i<=8;i++){
-        pecasviradas = ppvirar[i] + pecasviradas;
-    }
-    printf("     %d peças viradas\n",pecasviradas);
-   
+    for(int i = 0;i<=8;i++)
+            pecasviradas = ppvirar[i] + pecasviradas;
+
+    if(mode == 1)
+        printf("     %d peças viradas\n",pecasviradas);
+    else if (mode==2)
+        printf("O computador virou %d peças\n",pecasviradas);
 }
 
 int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
@@ -117,6 +119,7 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
     int delta_c=1,delta_l=1,c1,l1;
     c1=c;
     l1=l;
+    board[linha][coluna]= player;
     while(board[linha + l][coluna + c] == player2){
         board[linha + l][coluna + c]=player;
         delta_c++;
@@ -160,7 +163,7 @@ int next(char board[9][9],char player){
     
     for (int i1 = 1; i1 < 9; i1++)
         for ( int j1 = 1; j1 < 9; j1++){
-            if (board[i1][j1]== 'q')
+            if (board[i1][j1]== 'q'|| board[i1][j1]== 'b')
                 board[i1][j1]='.'; 
         }
   
@@ -207,11 +210,16 @@ int gameloop(char board[9][9],int turn){
             print_board(board);
             printf("    Vez do jogador (%c)\n",player(turn));
             input(&linha,&col);
-            play(board,player(turn),linha,col); 
+            play(board,player(turn),linha,col,1); 
                 if (board[linha][col]!= player(turn))
-                     printf(" Jogada invalida\n Jogue outra vez\n");
-                
-        }while (board[linha][col]!= player(turn)); 
+                     printf(" Jogada invalida\n Jogue outra vez\n");    
+        }while (board[linha][col]!= player(turn));
+
+        turn++;
+        next(board,player(turn));
+        print_board(board);
+        bot(board,player(turn));
+        
     }else if (next(board,player(turn)) == 0){
         temp++;
         if (temp = 2)
@@ -225,8 +233,8 @@ int gameloop(char board[9][9],int turn){
 //#######################################################################################
 void copy_board(char bboard[9][9],char board[9][9]){
 
-    for (int i = 1; i < 9; i++)
-        for (int j = 1; j < 9; j++)
+    for (int i = 0; i < 9; i++)
+        for (int j = 0; j < 9; j++)
         {
             bboard[i][j]=board[i][j];
         }
@@ -263,8 +271,8 @@ int pont_bot(char   board[9][9],char player){
 }
 void bot(char board[9][9],char player){
 
-    struct strk_bot bot[64]; /* numero da stack do minecraft*/
-    int k=0,melhor_jogada,maior;
+    struct strk_bot bot[32]; /* numero da stack do minecraft*/
+    int k=0,melhor_jogada=0,maior;
     
     for (int i = 1; i < 9; i++)
         for (int j = 1; j < 9; j++)
@@ -272,11 +280,12 @@ void bot(char board[9][9],char player){
             if ( board[i][j]== 'q')
             {
                 copy_board(bot[k].bboard,board);
-                play(bot[k].bboard,player,i,j);
+                play(bot[k].bboard,player,i,j,0);
                 bot[k].coluna_bot=j;
                 bot[k].linha_bot=i;
                 k++;
-                board[i][j]= '.';
+                board[i][j]= 'b';
+
             }  
         }
     
@@ -293,8 +302,7 @@ void bot(char board[9][9],char player){
             melhor_jogada=i;
         }
 
-    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot);
-
+    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);
     
 
 }
