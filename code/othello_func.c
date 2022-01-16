@@ -3,16 +3,6 @@
 #include "othello_func.h"
 
 int linha,col;
-struct bot_seg{
-    
-
-};
-struct strk_bot
-{
-    int pontos;
-    char bboard[9][9];
-    int linha_bot,coluna_bot;
-};
 
 int menu(){
     int mainmode;
@@ -240,10 +230,10 @@ void copy_board(char bboard[9][9],char board[9][9]){
         }
         
 }
-/*int maior(struct strk_bot bot[64],int sz){
+int maior(strk_bot bot[32],int sz){
 
     int maior=bot[0].pontos;
-    int indice_maior;
+    int indice_maior=0;
     for (int i = 0; i < sz; i++)
         if (maior < bot[i].pontos)
         {
@@ -253,7 +243,7 @@ void copy_board(char bboard[9][9],char board[9][9]){
         
     return indice_maior;
 
-}*/
+}
 int pont_bot(char   board[9][9],char player){
     int pontos=0;
     for (int i = 1; i < 9; i++)
@@ -271,8 +261,8 @@ int pont_bot(char   board[9][9],char player){
 }
 void bot(char board[9][9],char player){
 
-    struct strk_bot bot[32]; /* numero da stack do minecraft*/
-    int k=0,melhor_jogada=0,maior;
+    strk_bot bot[32]; /* numero da stack do minecraft*/
+    int k=0,melhor_jogada=0,maiore;
     
     for (int i = 1; i < 9; i++)
         for (int j = 1; j < 9; j++)
@@ -294,14 +284,15 @@ void bot(char board[9][9],char player){
         bot[i].pontos=pont_bot(board,player);
     }
 
-    maior=bot[0].pontos;
-    for (int i = 0; i < k; i++)
-        if (maior < bot[i].pontos)
-        {
-            maior=bot[i].pontos;
-            melhor_jogada=i;
-        }
+//    maiore=bot[0].pontos;
+  //  for (int i = 0; i < k; i++)
+    //    if (maiore < bot[i].pontos)
+      //  {
+        //    maiore=bot[i].pontos;
+          //  melhor_jogada=i;
+        //}
 
+    melhor_jogada= maior(bot,k);
     play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);
     
 

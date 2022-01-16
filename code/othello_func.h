@@ -1,3 +1,11 @@
+typedef struct 
+{
+    int pontos;
+    char bboard[9][9];
+    int linha_bot,coluna_bot;
+} strk_bot;
+
+
 char print_board(char tboard[9][9]);
 
 void init_board(char tboard[9][9]);
@@ -33,3 +41,5 @@ void copy_board(char bboard[9][9],char board[9][9]);
 int pont_bot(char   board[9][9],char player);
 
 void bot(char board[9][9],char player);
+
+int maior(strk_bot bot[64],int sz);
