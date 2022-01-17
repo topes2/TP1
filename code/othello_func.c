@@ -80,8 +80,9 @@ void input(int *linha,int *col){
 
 int fintput(FILE *f,int *linha, int *col){
     char coluna;
-    int linhatemp;
-    fscanf(f," %d %c",linha,&coluna);
+    
+    
+    if(fscanf(f," %d %c",linha,&coluna)!=EOF){
         
         if (coluna >= 'a' && coluna <= 'h')
             *col = coluna - 'a' + 1;
@@ -89,9 +90,8 @@ int fintput(FILE *f,int *linha, int *col){
             *col = coluna - 'A' + 1;
         else
             *col = 0;
-
-    printf("%d %d \n\n\n\n",*linha,*col);   
-    
+    }
+    else return 0;
 }
 void play(char board[9][9],char player, int linha, int col,int mode){
     

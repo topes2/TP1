@@ -10,7 +10,7 @@ int main(int argc, char** argv){
     FILE *f;
     init_board(board);
     
-    /*if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
+    if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
     int temp=0,end=0;
         while (end != 1)
         { 
@@ -25,7 +25,6 @@ int main(int argc, char** argv){
             print_board(board);
             printf("    Vez do jogador (%c)\n",player(turn));
             if(fintput(f,&linha,&col)==0) break;
-
             play(board,player(turn),linha,col,1); 
                 if (board[linha][col]!= player(turn))
                      printf(" Jogada invalida\n Jogue outra vez\n");    
@@ -44,7 +43,7 @@ int main(int argc, char** argv){
     printf("acabou");
     }
     }
-    */
+    
     m_jogo=menu();
 
     if(m_jogo=1){ 
