@@ -2,7 +2,6 @@ typedef struct
 {
     int pontos;
     char seg_bboard[9][9];
-    int seg_linha_bot,seg_coluna_bot;
 }seg_bot;
 typedef struct 
 {

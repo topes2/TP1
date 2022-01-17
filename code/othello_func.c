@@ -85,7 +85,7 @@ void play(char board[9][9],char player, int linha, int col,int mode){
     int pecasviradas=0,lp=0;
     for (int l =-1,t = 0;l<=1;l++,t = t+3){
         for (int c = -1, g = 0; c<=1;c++,g++){
-            if ( board[linha][col] == 'q' || board[linha][col] == 'b'){
+            if ( board[linha][col] == 'q'){
                 if ( board[linha+l][col+c] == player2 ){
                     if((ppvirar[t + g] = check(board,l,c,linha,col,player,0))== 1){
                         flanked(board,l,c,linha,col,player);
@@ -153,7 +153,7 @@ int next(char board[9][9],char player){
     
     for (int i1 = 1; i1 < 9; i1++)
         for ( int j1 = 1; j1 < 9; j1++){
-            if (board[i1][j1]== 'q'|| board[i1][j1]== 'b')
+            if (board[i1][j1]== 'q')
                 board[i1][j1]='.'; 
         }
   
@@ -278,47 +278,43 @@ int pont_bot(char   board[9][9],char player){
     return pontos;
 }
     
-void bot_segunda_jogada(strk_bot bot[32],int sz,char player){
+void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simula todas as jogadas para a ronda seguinte a partir de cada jogada do bot 
+{
     
     char player2 = p2(player);
-    for (int l = 0,k = 0; k < sz; k++){
-        next(bot[k].bboard,player2);
-        for (int i = 1; i < 9; i++){
+
+    for (int l = 0,k = 0; k < sz; k++){// cada valor de k é uma possivel jogada do bot, vamos ver como o oponente pode responder
+        next(bot[k].bboard,player2); // precessamos o board para mostrar as jogadas possiveis para o oponente do bot
+        for (int i = 1; i < 9; i++){// loop para correr o board 
             for (int j = 1; j < 9; j++){
-                if ( bot[k].bboard[i][j] == 'q')
+                if ( bot[k].bboard[i][j] == 'q')//encontra uma jogada possivel do oponente
                 {
-                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard);
-                    play(bot[k].segbot[l].seg_bboard,player2,i,j,0);
-                    bot[k].segbot[l].seg_coluna_bot=j;
-                    bot[k].segbot[l].seg_linha_bot=i;
-                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player);
+                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard); // copia o board para um board2 onde vai simular a jogada do oponenete
+                    play(bot[k].segbot[l].seg_bboard,player2,i,j,0);// simula a jogada
+                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player);// avalia o tabuleiro e atruibui uma pontuação de acorod com o indicado na função pont_bot()
                     l++;
-                    bot[k].bboard[i][j] = 'b';
                 }  
             }
         }
-        bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;
+        bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;//copia o maior valor de pontos do array bot[k].segbot.pontos para bot[k].pontos assim guadamos o melhor outcome da jogada de indice k
     }
 }
 void bot(char board[9][9],char player){
 
-    strk_bot bot[32]; /* numero da stack do minecraft*/
+    strk_bot bot[32]; /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
     int k=0,melhor_jogada;
     
     
     for (int i = 1; i < 9; i++)
-        for (int j = 1; j < 9; j++)
+        for (int j = 1; j < 9; j++) // loop para correr o board 
         {
-            if ( board[i][j]== 'q')
+            if ( board[i][j]== 'q') //quando encontrar uma jogada possivel o bot simula a jogada, toda no mesmo indice do array bot[] para podermos analizar tudo a partir do indice
             {
-                copy_board(bot[k].bboard,board);
-                play(bot[k].bboard,player,i,j,0);
-                bot[k].coluna_bot=j;
-                bot[k].linha_bot=i;
-                bot[k].pontos=pont_bot(board,player);
+                copy_board(bot[k].bboard,board);// 1º copia o board para um array de tamanho igual na posição k do array de strucks
+                play(bot[k].bboard,player,i,j,0);// 2º simula a jogada nesse mesmo array para n alterar o tabuleiro de jogo
+                bot[k].coluna_bot=j;//  guarda a coluna da jogada na struck
+                bot[k].linha_bot=i;// guarda a linha da jogada na struck
                 k++;
-                board[i][j]= 'b';
-
             }  
         }
 
@@ -326,7 +322,7 @@ void bot(char board[9][9],char player){
 
     melhor_jogada = maior(bot,k);
 
-    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);
+    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);//joga a jogada que obteve a melhor pontuação de tabuleiro
     
 
 }
