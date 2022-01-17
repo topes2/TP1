@@ -14,23 +14,24 @@ int menu(){
         scanf("%d",&mainmode);
     while (mainmode != 1 && mainmode != 2);
      
-
     return mainmode;
 }
 
-int random(){
-    srand(time(NULL));
-    int r = rand();
-    return r;
-} //temos de tirar
+//################################################################################################################################
 
-char player(int turn){
+//################################################################################################################################
+
+char player(int turn){    //return do char do player atual em função da ronda;  
     
     if (turn % 2 == 0) return 'x';
     else return 'o';    
 }
 
-char print_board(char tboard[9][9]){
+//################################################################################################################################
+
+//################################################################################################################################
+
+char print_board(char tboard[9][9]){ // função para dar print a um char array[9][9] 
     for (int l= 0; l < 9; l++){
         for (int c = 0; c < 9; c++){
             printf("%c  ", tboard[l][c]);
@@ -39,28 +40,54 @@ char print_board(char tboard[9][9]){
     }
 }
 
-void init_board(char tboard[9][9]){
-    for (int i = 1;i< 9;i++){
+//################################################################################################################################
+
+//################################################################################################################################
+
+void init_board(char tboard[9][9]){     // inicializa o tabuleiro de jogo
+    for (int i = 1;i< 9;i++){           
         for (int l=1;l< 9;l++){
-            tboard[i][l] = '.';
+            tboard[i][l] = '.'; 
         }
         tboard[i][0] = '0'+ i;
         tboard[0][i]= 'A' + i -1;
     }
-
-    tboard[4][5] = tboard[5][4] = 'x';
-    tboard[4][4] = tboard[5][5] = 'o';
+                                       
+    tboard[4][5] = tboard[5][4] = 'x';  //coloca os 'x' na posição inicial
+    tboard[4][4] = tboard[5][5] = 'o';  //coloca os 'o' na posição inicial
     tboard[0][0] = ' ';
 }
+//################################################################################################################################
 
-char p2(char player){
+//################################################################################################################################
+
+char p2(char player){  // dá return do char do player que não está a jogar na ronda, para só precisarmos de passar o player da ronda atual como argumento das funções
     if (player=='x') return 'o';
     else return 'x';
  }
 
-void input(int *linha,int *col){
+//################################################################################################################################
+
+//################################################################################################################################
+
+int char_decod(char coluna){               // converte um char entre A e H, maiusculas ou minusculas, em int de 1 a 8
+    
+    if (coluna >= 'a' && coluna <= 'h') 
+        return coluna - 'a' + 1;
+    else if(coluna >= 'A' && coluna <= 'H')
+        return coluna - 'A' + 1;
+    else
+        return 0;                          //se o char não estiver entre A e H retorna 0              
+
+}
+
+//################################################################################################################################
+
+//################################################################################################################################
+
+void input(int *linha,int *col){// lê o imput do jogador 
     char coluna;
-    int linhatemp;
+
     printf("Insira a jogada (linha coluna)\n");
     scanf("%d",linha);
     scanf("%c",&coluna);
@@ -70,53 +97,51 @@ void input(int *linha,int *col){
     scanf("%c",&coluna);
     }
 
-    if (coluna >= 'a' && coluna <= 'h')
-        *col = coluna - 'a' + 1;
-    else if(coluna >= 'A' && coluna <= 'H')
-        *col = coluna - 'A' + 1;
-    else
-        *col = 0;
+    *col = char_decod(coluna);
 }
+//################################################################################################################################
 
-int fintput(FILE *f,int *linha, int *col){
+//################################################################################################################################
+int fintput(FILE *f,int *linha, int *col){     // função para ler jogada a partir de file.txt
+
     char coluna;
-    
-    
-    if(fscanf(f," %d %c",linha,&coluna)!=EOF){
-        
-        if (coluna >= 'a' && coluna <= 'h')
-            *col = coluna - 'a' + 1;
-        else if(coluna >= 'A' && coluna <= 'H')
-            *col = coluna - 'A' + 1;
-        else
-            *col = 0;
-    }
+
+    if(fscanf(f," %d %c",linha,&coluna)!=EOF)  //dá scanf da linha e da coluna a partir de ficheiro e testa se chegamos ao final da pagina;
+        *col = char_decod(coluna);             //se ler uma linha do ficheiro usa a função char_decod para converte o char em int de 1 a 8
     else return 0;
 }
-void play(char board[9][9],char player, int linha, int col,int mode){
+
+//################################################################################################################################
+
+//################################################################################################################################
+
+
+void play(char board[9][9],char player, int linha, int col,int mode){               //função que vai testar a jogada e se for possivel chama a função flanked para virar as peças 
     
-    int ppvirar[9]={0,0,0,0,0,0,0,0,0};
-    char player2=p2(player);
-    int pecasviradas=0,lp=0;
-    for (int l =-1,t = 0;l<=1;l++,t = t+3){
-        for (int c = -1, g = 0; c<=1;c++,g++){
-            if ( board[linha][col] == 'q'){
-                if ( board[linha+l][col+c] == player2 ){
-                    if((ppvirar[t + g] = check(board,l,c,linha,col,player,0))== 1){
-                        flanked(board,l,c,linha,col,player);
-                    }
-                }
+    int p_virar[9]={0,0,0,0,0,0,0,0,0};                                             //vetor das peças viradas em cada jogada, cada indice guarda as peças viradas numa das direções
+    char player2=p2(player);                                                        
+    int p_vir=0;                                                                    //contador do total de peças viradas
+
+    for (int l =-1,t = 0;l<=1;l++,t = t+3){                                         
+        for (int c = -1, g = 0; c<=1;c++,g++){                                      //loop para testar todas as direcões alterando o valor de c e l entre -1 e 1                
+            if ( board[linha][col] == 'q'){              
+                if((p_virar[t + g] = check(board,l,c,linha,col,player,1))!= 0)
+                    flanked(board,l,c,linha,col,player);
+                
             }
         }
     }
-    for(int i = 0;i<=8;i++)
-            pecasviradas = ppvirar[i] + pecasviradas;
+    
+    
+    for(int i = 0;i<=8;i++) 
+        p_vir += p_virar[i];
 
     if(mode == 1)
-        printf("     %d peças viradas\n",pecasviradas);
+        printf("     %d peças viradas\n",p_vir);
     else if (mode==2)
-        printf("O computador virou %d peças\n",pecasviradas);
+        printf("O computador virou %d peças\n",p_vir);
 }
+
 
 int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
    
@@ -153,7 +178,7 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
             break;
         }        
     }
-        if(board[linha+l][col+c] == player){
+        if(board[linha+l][col+c] == player && ((l<(-1) &&  l>1) || (c<(-1) &&  c>1))){
             if (mode == 1)
                 return points;
             else if (mode == 0)
@@ -206,24 +231,24 @@ int gameloop(char board[9][9],int turn){
         { 
         turn++;
         if (next(board,player(turn)) != 0){
-        do
-        {
-            temp=0;
-            printf("             Pontuação\n");
-            printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
+            do
+            {
+                temp=0;
+                printf("             Pontuação\n");
+                printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
+                next(board,player(turn));
+                print_board(board);
+                printf("    Vez do jogador (%c)\n",player(turn));
+                input(&linha,&col);
+                play(board,player(turn),linha,col,1); 
+                    if (board[linha][col]!= player(turn))
+                         printf(" Jogada invalida\n Jogue outra vez\n");    
+            }while (board[linha][col]!= player(turn));
+
+            turn++;
             next(board,player(turn));
             print_board(board);
-            printf("    Vez do jogador (%c)\n",player(turn));
-            input(&linha,&col);
-            play(board,player(turn),linha,col,1); 
-                if (board[linha][col]!= player(turn))
-                     printf(" Jogada invalida\n Jogue outra vez\n");    
-        }while (board[linha][col]!= player(turn));
-
-        turn++;
-        next(board,player(turn));
-        print_board(board);
-        bot(board,player(turn));
+            bot(board,player(turn));
         
     }else if (next(board,player(turn)) == 0){
         temp++;

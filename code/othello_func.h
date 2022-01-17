@@ -31,8 +31,6 @@ void input(int *linha,int *col);
 
 int menu();
 
-int random();
-
 void printtest(int array[8]);
 
 int pontos(char player,char board[9][9]);
@@ -54,3 +52,5 @@ int maior(strk_bot bot[64],int sz);
 int maior_bot2(seg_bot[20],int sz);
 
 int fintput(FILE *f,int *linha, int *col);
+
+int char_decod(char coluna);

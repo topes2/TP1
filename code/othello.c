@@ -35,46 +35,21 @@ int main(int argc, char** argv){
         print_board(board);
         bot(board,player(turn));
         
-    }else if (next(board,player(turn)) == 0){
-        temp++;
+    }   else if (next(board,player(turn)) == 0)
+            temp++;
         if (temp = 2)
-        end++;
-    }
-    printf("acabou");
-    }
-    }
+            end++;
     
+    }
+    }
     m_jogo=menu();
 
-    if(m_jogo=1){ 
+    if(m_jogo=1)
         gameloop(board,turn);
-    }else if (m_jogo=2){
+    else if (m_jogo=2){
         //pfft dkdc
     }
 
-//###############################################################################################
-//parcela do main se existir file jogadas.txt
-//###############################################################################################
 
- /*   if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
-        
-    while (fscanf(f,"%d %c",&linha,&coluna)!=EOF)
-    {  
-        turn++;
-        printf("             Pontuação\n");
-        printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-        next(board,player(turn));
-        printf("    Vez do jogador (%c)\n",player(turn)); 
-        play(board,player(turn),linha,col); 
-            if (board[linha][col]!= player(turn)){
-                 printf(" Jogada invalida\n Jogue outra vez\n");
-                 turn--;
-            }
-    };
-        next(board,player(turn));
-        fclose(f); //fechar o file
-        gameloop(board,turn);
-        return 0;
-    }
-*/
+
 }
