@@ -52,3 +52,5 @@ void bot(char board[9][9],char player);
 int maior(strk_bot bot[64],int sz);
 
 int maior_bot2(seg_bot[20],int sz);
+
+int fintput(FILE *f,int *linha, int *col);

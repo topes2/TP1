@@ -78,6 +78,21 @@ void input(int *linha,int *col){
         *col = 0;
 }
 
+int fintput(FILE *f,int *linha, int *col){
+    char coluna;
+    int linhatemp;
+    fscanf(f," %d %c",linha,&coluna);
+        
+        if (coluna >= 'a' && coluna <= 'h')
+            *col = coluna - 'a' + 1;
+        else if(coluna >= 'A' && coluna <= 'H')
+            *col = coluna - 'A' + 1;
+        else
+            *col = 0;
+
+    printf("%d %d \n\n\n\n",*linha,*col);   
+    
+}
 void play(char board[9][9],char player, int linha, int col,int mode){
     
     int ppvirar[9]={0,0,0,0,0,0,0,0,0};
