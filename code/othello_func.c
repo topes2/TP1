@@ -336,24 +336,37 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simu
         bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;//copia o maior valor de pontos do array bot[k].segbot.pontos para bot[k].pontos assim guadamos o melhor outcome da jogada de indice k
     }
 }
+
+int bot_primeira(char board[9][9], strk_bot bot[], int szmax){
+
+int k=0;
+
+for (int i = 1; i < 9; i++)
+        for (int j = 1; j < 9; j++)               // loop para correr o board 
+        {   
+            if ( board[i][j]== 'q')               // quando encontrar uma jogada possivel o bot simula a jogada, toda no mesmo indice do array bot[] para podermos analizar tudo a partir do indice
+            { 
+                copy_board(bot[k].bboard,board);  // 1º copia o board para um array de tamanho igual na posição k do array de strucks
+                play(bot[k].bboard,player,i,j,0); // 2º simula a jogada nesse mesmo array para n alterar o tabuleiro de jogo
+                bot[k].coluna_bot=j;              // guarda a coluna da jogada na struck
+                bot[k].linha_bot=i;               // guarda a linha da jogada na struck
+                k++;
+                if(k>= szmax){
+                    printf("O valor do k excedeu o valor maximo");
+                    return k;
+                }
+            }  
+        }
+
+    return k;
+
+}
 void bot(char board[9][9],char player){
 
     strk_bot bot[32]; /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
     int k=0,melhor_jogada;
     
-    
-    for (int i = 1; i < 9; i++)
-        for (int j = 1; j < 9; j++) // loop para correr o board 
-        {
-            if ( board[i][j]== 'q') //quando encontrar uma jogada possivel o bot simula a jogada, toda no mesmo indice do array bot[] para podermos analizar tudo a partir do indice
-            {
-                copy_board(bot[k].bboard,board);// 1º copia o board para um array de tamanho igual na posição k do array de strucks
-                play(bot[k].bboard,player,i,j,0);// 2º simula a jogada nesse mesmo array para n alterar o tabuleiro de jogo
-                bot[k].coluna_bot=j;//  guarda a coluna da jogada na struck
-                bot[k].linha_bot=i;// guarda a linha da jogada na struck
-                k++;
-            }  
-        }
+    k = bot_primeira(board,bot,32);
 
     bot_segunda_jogada(bot,k,player);
 

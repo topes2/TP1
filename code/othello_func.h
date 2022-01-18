@@ -8,7 +8,7 @@ typedef struct
     int pontos;
     char bboard[9][9];
     int linha_bot,coluna_bot;
-    seg_bot segbot[32];
+    seg_bot segbot[64];
 } strk_bot;
 
 
@@ -54,3 +54,5 @@ int maior_bot2(seg_bot[20],int sz);
 int fintput(FILE *f,int *linha, int *col);
 
 int char_decod(char coluna);
+
+int bot_primeira(char board[9][9], strk_bot bot[], int szmax);
