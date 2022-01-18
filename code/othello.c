@@ -8,6 +8,7 @@ int main(int argc, char** argv){
     int turn=1;
     char coluna[10], board[9][9];
     FILE *f;
+    
     init_board(board);
     
     if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){

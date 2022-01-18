@@ -57,9 +57,9 @@ void init_board(char tboard[9][9]){     // inicializa o tabuleiro de jogo
     tboard[4][4] = tboard[5][5] = 'o';  //coloca os 'o' na posição inicial
     tboard[0][0] = ' ';
 }
-//################################################################################################################################
+//###############################################################################################################################
 
-//################################################################################################################################
+//###############################################################################################################################
 
 char p2(char player){  // dá return do char do player que não está a jogar na ronda, para só precisarmos de passar o player da ronda atual como argumento das funções
     if (player=='x') return 'o';
@@ -124,38 +124,38 @@ void play(char board[9][9],char player, int linha, int col,int mode){           
 
     for (int l =-1,t = 0;l<=1;l++,t = t+3){                                         
         for (int c = -1, g = 0; c<=1;c++,g++){                                      //loop para testar todas as direcões alterando o valor de c e l entre -1 e 1                
-            if ( board[linha][col] == 'q'){              
-                if((p_virar[t + g] = check(board,l,c,linha,col,player,1))!= 0)
-                    flanked(board,l,c,linha,col,player);
-                
+            if ( board[linha][col] == 'q'){       
+                if ( board[linha+l][col+c] == player2)                              //priemiro teste da direção, se encontrar uma peça do adversário na direção (l,c) passa á segunda parte 
+                    if((p_virar[t + g] = check(board,l,c,linha,col,player,1))!= 0)  //se for jogada valida check() retur != 0 e guarda o valor no array p_virar;
+                    flanked(board,l,c,linha,col,player);                            //caso a jogada seja valida, ececuta-a atravez da função flanked
             }
         }
     }
     
     
-    for(int i = 0;i<=8;i++) 
+    for(int i = 0;i<=8;i++)                                                         //loop for para somar todos os valores do vetor p_virar
         p_vir += p_virar[i];
 
-    if(mode == 1)
-        printf("     %d peças viradas\n",p_vir);
+    if(mode == 1)                                                                   //usamos o mode para a mensagem alterar entre jogador e computador
+        printf("     %d peças viradas\n",p_vir);                                                        
     else if (mode==2)
         printf("O computador virou %d peças\n",p_vir);
 }
 
 
-int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
-   
+int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){         //função que vira as peças a partir da posição escolhida pelo jogador até uma peça já existente no tabuleiro
+    //                                                                              //função só é evocada dps da posição e direção ser testada possivel  
     char player2 = p2(player);
-    int delta_c=1,delta_l=1,c1,l1;
-    c1=c;
-    l1=l;
+    int delta_c=1,delta_l=1,c1,l1;                                                  
+    
     board[linha][coluna]= player;
+
     while(board[linha + l][coluna + c] == player2){
         board[linha + l][coluna + c]=player;
         delta_c++;
         delta_l++;
-        l = l1 * delta_l;
-        c = c1 * delta_c;        
+        l *=  delta_l;
+        c *=  delta_c;        
         
     }
     
@@ -163,22 +163,19 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){
 
 int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
     char player2 = p2(player);
-    int delta_c=1,delta_l=1,c1,l1,points=0;
-    c1=c;
-    l1=l;
-    
+    int delta_c=1,delta_l=1,points=0;
     
         while(board[linha + l][col + c] == player2){
         delta_c++;
         delta_l++;
         points++;
-        l = l1 * delta_l;
-        c = c1 * delta_c;        
-        if(delta_c*c1 > 9 || delta_l*l1 > 9){
+        l *= delta_l;
+        c *= delta_c;        
+        if(c > 9 || l > 9){
             break;
         }        
     }
-        if(board[linha+l][col+c] == player && ((l<(-1) &&  l>1) || (c<(-1) &&  c>1))){
+        if(board[linha+l][col+c] == player){
             if (mode == 1)
                 return points;
             else if (mode == 0)
