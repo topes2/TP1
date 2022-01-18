@@ -124,10 +124,10 @@ void play(char board[9][9],char player, int linha, int col,int mode){           
 
     for (int l =-1,t = 0;l<=1;l++,t = t+3){                                         
         for (int c = -1, g = 0; c<=1;c++,g++){                                      //loop para testar todas as direcões alterando o valor de c e l entre -1 e 1                
-            if ( board[linha][col] == 'q'){       
-                if ( board[linha+l][col+c] == player2)                              //priemiro teste da direção, se encontrar uma peça do adversário na direção (l,c) passa á segunda parte 
-                    if((p_virar[t + g] = check(board,l,c,linha,col,player,1))!= 0)  //se for jogada valida check() retur != 0 e guarda o valor no array p_virar;
-                    flanked(board,l,c,linha,col,player);                            //caso a jogada seja valida, ececuta-a atravez da função flanked
+            if ( board[linha][col] == 'q' &&  board[linha+l][col+c] == player2){       
+                if((p_virar[t + g] = check(board,l,c,linha,col,player,1))!= 0)                                                                    //priemiro teste da direção, se encontrar uma peça do adversário na direção (l,c) passa á segunda parte 
+                    flanked(board,l,c,linha,col,player);                                                                  //se for jogada valida check() retur != 0 e guarda o valor no array p_virar;
+                                                                                    //caso a jogada seja valida, ececuta-a atravez da função flanked
             }
         }
     }
@@ -146,7 +146,7 @@ void play(char board[9][9],char player, int linha, int col,int mode){           
 int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){         //função que vira as peças a partir da posição escolhida pelo jogador até uma peça já existente no tabuleiro
     //                                                                              //função só é evocada dps da posição e direção ser testada possivel  
     char player2 = p2(player);
-    int delta_c=1,delta_l=1,c1,l1;                                                  
+    int delta_c=1,delta_l=1;                                                  
     
     board[linha][coluna]= player;
 
@@ -183,16 +183,20 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
         }else
             return 0;     
 }
+void remove_q(char board[9][9]){
 
+  for (int i1 = 1; i1 < 9; i1++)
+        for ( int j1 = 1; j1 < 9; j1++){
+            if (board[i1][j1]== 'q')
+                board[i1][j1]='.'; 
+        }  
+
+}
 int next(char board[9][9],char player){
     int y=0;
     char player2 = p2(player);
     
-    for (int i1 = 1; i1 < 9; i1++)
-        for ( int j1 = 1; j1 < 9; j1++){
-            if (board[i1][j1]== 'q')
-                board[i1][j1]='.'; 
-        }
+    remove_q(board);
   
     for (int i3 = 1; i3 < 9; i3++)
         for ( int j3 = 1; j3 < 9; j3++){
@@ -258,6 +262,7 @@ int gameloop(char board[9][9],int turn){
 //######################################################################################
 //BOT
 //#######################################################################################
+
 void copy_board(char bboard[9][9],char board[9][9]){
 
     for (int i = 0; i < 9; i++)
@@ -337,7 +342,7 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simu
     }
 }
 
-int bot_primeira(char board[9][9], strk_bot bot[], int szmax){
+int bot_primeira(char board[9][9], strk_bot bot[], int szmax,char player){
 
 int k=0;
 
@@ -366,7 +371,7 @@ void bot(char board[9][9],char player){
     strk_bot bot[32]; /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
     int k=0,melhor_jogada;
     
-    k = bot_primeira(board,bot,32);
+    k = bot_primeira(board,bot,32,player);
 
     bot_segunda_jogada(bot,k,player);
 

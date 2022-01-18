@@ -55,4 +55,4 @@ int fintput(FILE *f,int *linha, int *col);
 
 int char_decod(char coluna);
 
-int bot_primeira(char board[9][9], strk_bot bot[], int szmax);
+int bot_primeira(char board[9][9], strk_bot bot[], int szmax,char player);
