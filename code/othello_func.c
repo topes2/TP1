@@ -457,9 +457,17 @@ void copy_board(char bboard[9][9],char board[9][9]){
         
 }
 
-//################################################################################################################################
-
-//################################################################################################################################
+//#######################################################
+ // maior função que identifica o indece em que o array de strk_bot 
+ // tem o maior valor atribuido a pontos
+ //
+ // Argumentos:
+ // bot - struckt com todas as informações necessarias do bot, array de strk_bot
+ // sz - tamanho array do array a ser utilizado, int      
+ //
+ // valor de retorno:
+ // indice em que o inteiro bot[].pontos é maior, inteiro
+//#######################################################
 
 int maior(strk_bot bot[32],int sz){
 
@@ -476,11 +484,19 @@ int maior(strk_bot bot[32],int sz){
 
 }
 
-//################################################################################################################################
+//#######################################################
+ // maior_bot2 função que identifica o indece em que o array de seg_bot
+ // tem o maior valor atribuido a pontos
+ //
+ // Argumentos:
+ // segundo_bot - struckt que guarda as jogadas possiveis do adversário do bot depois da jogada do mesmo, array de seg_bot
+ // sz - tamanho array do array a ser utilizado, int      
+ //
+ // valor de retorno:
+ // indice em que o inteiro bot[].pontos é maior, inteiro
+//#######################################################
 
-//################################################################################################################################
-
-int maior_bot2(seg_bot segundo_bot[20],int sz){
+int maior_bot2(seg_bot segundo_bot[32],int sz){
     
     int max=segundo_bot[0].pontos,indice=0;
     
