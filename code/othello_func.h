@@ -11,11 +11,11 @@ typedef struct
     seg_bot segbot[72];
 } strk_bot;
 
-char print_board(char tboard[9][9]);
+void print_board(char tboard[9][9]);
 
 void init_board(char tboard[9][9]);
 
-int flanked(char board[9][9],int l,int c,int linha,int coluna,char player);
+void flanked(char board[9][9],int l,int c,int linha,int coluna,char player);
 
 int check(char board[9][9],int l,int c,int linha,int col,char player);
 
