@@ -4,18 +4,7 @@
 
 int linha,col;
 
-int menu(){
-    int mainmode;
-    printf("Bem vindo a Othello por Andre e Diogo\n");
-    printf("Que modo gostaria de jogar?\n \
-    1-Modo pessoa vs pessoa\n \
-    2-Modo pessoa vs computador\n");
-    do
-        scanf("%d",&mainmode);
-    while (mainmode != 1 && mainmode != 2);
-     
-    return mainmode;
-}
+
 
 //################################################################################################################################
 
@@ -38,6 +27,7 @@ char print_board(char tboard[9][9]){ // função para dar print a um char array[
         }
         printf("\n");
     }
+    printf("\n");
 }
 
 //################################################################################################################################
@@ -61,7 +51,7 @@ void init_board(char tboard[9][9]){     // inicializa o tabuleiro de jogo
 
 //###############################################################################################################################
 
-char p2(char player){  // dá return do char do player que não está a jogar na ronda, para só precisarmos de passar o player da ronda atual como argumento das funções
+char p2(char player){  //dá return do char do player que não está a jogar na ronda, para só precisarmos de passar o player da ronda atual como argumento das funções
     if (player=='x') return 'o';
     else return 'x';
  }
@@ -81,6 +71,14 @@ int char_decod(char coluna){               // converte um char entre A e H, maiu
 
 }
 
+
+char int_decod(int coluna){
+
+    coluna+=16;
+    return coluna +'0';  
+
+}
+
 //################################################################################################################################
 
 //################################################################################################################################
@@ -88,11 +86,11 @@ int char_decod(char coluna){               // converte um char entre A e H, maiu
 void input(int *linha,int *col){// lê o imput do jogador 
     char coluna;
 
-    printf("Insira a jogada (linha coluna)\n");
+    printf("Chose your move.For instance: 5F\n");
     scanf("%d",linha);
     scanf("%c",&coluna);
     while (!(*linha >= 1 && *linha <= 8 && coluna>='a' && coluna <= 'h' || coluna >= 'A' && coluna <= 'H')){
-    printf("Insira um par de coordenadas validas ( linha colunas)\n");
+    printf("Invalid move!\nChose your move.For instance: 5F\n");
     scanf("%d",linha);
     scanf("%c",&coluna);
     }
@@ -106,8 +104,10 @@ int fintput(FILE *f,int *linha, int *col){     // função para ler jogada a par
 
     char coluna;
 
-    if(fscanf(f," %d %c",linha,&coluna)!=EOF)  //dá scanf da linha e da coluna a partir de ficheiro e testa se chegamos ao final da pagina;
-        *col = char_decod(coluna);             //se ler uma linha do ficheiro usa a função char_decod para converte o char em int de 1 a 8
+    if(fscanf(f," %d %c",linha,&coluna)!=EOF){  //dá scanf da linha e da coluna a partir de ficheiro e testa se chegamos ao final da pagina;
+        printf("\n");
+        *col = char_decod(coluna);
+    }                                            //se ler uma linha do ficheiro usa a função char_decod para converte o char em int de 1 a 8
     else return 0;
 }
 
@@ -116,7 +116,7 @@ int fintput(FILE *f,int *linha, int *col){     // função para ler jogada a par
 //################################################################################################################################
 
 
-void play(char board[9][9],char player, int linha, int col,int mode){               //função que vai testar a jogada e se for possivel chama a função flanked para virar as peças 
+void play(char board[9][9],char player, int linha, int col){               //função que vai testar a jogada e se for possivel chama a função flanked para virar as peças 
     
     int p_virar[9]={0,0,0,0,0,0,0,0,0};                                             //vetor das peças viradas em cada jogada, cada indice guarda as peças viradas numa das direções
     char player2=p2(player);                                                        
@@ -125,21 +125,45 @@ void play(char board[9][9],char player, int linha, int col,int mode){           
     for (int l =-1,t = 0;l<=1;l++,t = t+3){                                         
         for (int c = -1, g = 0; c<=1;c++,g++){                                      //loop para testar todas as direcões alterando o valor de c e l entre -1 e 1                
             if ( board[linha][col] == 'q' &&  board[linha+l][col+c] == player2){       
-                if((p_virar[t + g] = check(board,l,c,linha,col,player,1))!= 0)                                                                    //priemiro teste da direção, se encontrar uma peça do adversário na direção (l,c) passa á segunda parte 
-                    flanked(board,l,c,linha,col,player);                                                                  //se for jogada valida check() retur != 0 e guarda o valor no array p_virar;
-                                                                                    //caso a jogada seja valida, ececuta-a atravez da função flanked
+                if(check(board,l,c,linha,col,player)!= 0)                           //priemiro teste da direção, se encontrar uma peça do adversário na direção (l,c) passa á segunda parte 
+                    flanked(board,l,c,linha,col,player);                            //se for jogada valida check() retur != 0 e guarda o valor no array p_virar;                                                                  //caso a jogada seja valida, ececuta-a atravez da função flanked
             }
         }
     }
-    
-    
-    for(int i = 0;i<=8;i++)                                                         //loop for para somar todos os valores do vetor p_virar
-        p_vir += p_virar[i];
+}
+void fplayer_turn(FILE *f,char board[9][9],int turn){
 
-    if(mode == 1)                                                                   //usamos o mode para a mensagem alterar entre jogador e computador
-        printf("     %d peças viradas\n",p_vir);                                                        
-    else if (mode==2)
-        printf("O computador virou %d peças\n",p_vir);
+    next(board,player(turn));
+    print_board(board);
+    finput(f,&linha,&col);
+    play(board,player(turn),linha,col); 
+
+    while (board[linha][col]!= player(turn)){
+        printf("Invalid move!\n");
+        input(&linha,&col);
+        play(board,player(turn),linha,col);
+    }
+
+}
+void player_turn(char board[9][9],int turn){
+
+    next(board,player(turn));
+    print_board(board);
+    input(&linha,&col);
+    play(board,player(turn),linha,col); 
+
+    while (board[linha][col]!= player(turn)){
+        printf("Invalid move!\n");
+        input(&linha,&col);
+        play(board,player(turn),linha,col);
+    }
+
+}
+void bot_turn(char board[9][9],int turn){
+
+    next(board,player(turn));
+    print_board(board);
+    bot(board,player(turn));
 }
 
 
@@ -161,7 +185,7 @@ int flanked(char board[9][9],int l,int c,int linha,int coluna,char player){     
     
 }
 
-int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
+int check(char board[9][9],int l,int c,int linha,int col,char player){
     char player2 = p2(player);
     int delta_c=1,delta_l=1,points=0;
     
@@ -175,13 +199,10 @@ int check(char board[9][9],int l,int c,int linha,int col,char player,int mode){
             break;
         }        
     }
-        if(board[linha+l][col+c] == player){
-            if (mode == 1)
-                return points;
-            else if (mode == 0)
-                return 1;
-        }else
-            return 0;     
+    if(board[linha+l][col+c] == player) 
+        return points;
+    else 
+        return 0;     
 }
 void remove_q(char board[9][9]){
 
@@ -204,7 +225,7 @@ int next(char board[9][9],char player){
                 for (int l=-1;l == -1 || l == 0|| l == 1;l++)
                     for (int c = -1; c == -1 || c == 0 || c == 1;c++){
                         if(board[i3+l][j3+c] == player2){
-                        if(check(board,l,c,i3,j3,player,0)==1){
+                        if(check(board,l,c,i3,j3,player)!=0){
                             board[i3][j3] = 'q';
                             y++;
                         }
@@ -226,37 +247,23 @@ int pontos(char player,char board[9][9]){
     return counter;       
 }
 
-int gameloop(char board[9][9],int turn){
-    int temp=0,end=0;
-        while (end != 1)
-        { 
-        turn++;
-        if (next(board,player(turn)) != 0){
-            do
-            {
-                temp=0;
-                printf("             Pontuação\n");
-                printf(" Jogador1(x): %d    Jogador2(o): %d \n",pontos('x',board),pontos('o',board));
-                next(board,player(turn));
-                print_board(board);
-                printf("    Vez do jogador (%c)\n",player(turn));
-                input(&linha,&col);
-                play(board,player(turn),linha,col,1); 
-                    if (board[linha][col]!= player(turn))
-                         printf(" Jogada invalida\n Jogue outra vez\n");    
-            }while (board[linha][col]!= player(turn));
+void end_game(char board[9][9], char player){
 
-            turn++;
-            next(board,player(turn));
-            print_board(board);
-            bot(board,player(turn));
-        
-    }else if (next(board,player(turn)) == 0){
-        temp++;
-        if (temp = 2)
-        end++;
-    }
-    }
+    int pontos_b,pontos_p;
+    char pc=p2(player);
+
+    pontos_b=pontos('o',board);
+    pontos_p=pontos('x',board); 
+
+    printf("Game Over!\n Black: %d discs, White: %d discs\n",pontos_p,pontos_b);
+
+    if ( pontos(player,board) < pontos(pc,board))
+        printf("You lose!\n");
+    else if( pontos(player,board) > pontos(pc,board))
+        printf("You win!\n");
+    else
+        printf("It's a draw\n");
+
 }
 
 //######################################################################################
@@ -272,6 +279,8 @@ void copy_board(char bboard[9][9],char board[9][9]){
         }
         
 }
+
+
 int maior(strk_bot bot[32],int sz){
 
     int maior=bot[0].pontos;
@@ -306,9 +315,9 @@ int pont_bot(char   board[9][9],char player){
             if(board[i][j]==player){
                 if ((i==1 && j==1)||(i==1 && j==8)||(i==8 && j==8)||(i==8 && j==1)) //verifica se há peças do bot nas casas dos cantos e atribui +10 pontos á jogada
                 pontos+=10;
-                else if(i==1 || i == 8 || j==1 || j==8 )//verifica se há peças do bot nas bordas do tabuleito e atribui +5 aos pontos
+                else if(i==1 || i == 8 || j==1 || j==8 )                            //verifica se há peças do bot nas bordas do tabuleito e atribui +5 aos pontos
                 pontos+=5;
-                else // atribui +1 aos pontos por cada peça que encontrar que não esteja em cantos ou bordas
+                else                                                                // atribui +1 aos pontos por cada peça que encontrar que não esteja em cantos ou bordas
                 pontos ++;
             }
             else if (board[i][j]==player2)
@@ -325,20 +334,20 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simu
     
     char player2 = p2(player);
 
-    for (int l = 0,k = 0; k < sz; k++){// cada valor de k é uma possivel jogada do bot, vamos ver como o oponente pode responder
-        next(bot[k].bboard,player2); // precessamos o board para mostrar as jogadas possiveis para o oponente do bot
-        for (int i = 1; i < 9; i++){// loop para correr o board 
+    for (int l = 0,k = 0; k < sz; k++){                     // cada valor de k é uma possivel jogada do bot, vamos ver como o oponente pode responder
+        next(bot[k].bboard,player2);                        // precessamos o board para mostrar as jogadas possiveis para o oponente do bot
+        for (int i = 1; i < 9; i++){                        // loop para correr o board 
             for (int j = 1; j < 9; j++){
-                if ( bot[k].bboard[i][j] == 'q')//encontra uma jogada possivel do oponente
+                if ( bot[k].bboard[i][j] == 'q')            //encontra uma jogada possivel do oponente
                 {
-                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard); // copia o board para um board2 onde vai simular a jogada do oponenete
-                    play(bot[k].segbot[l].seg_bboard,player2,i,j,0);// simula a jogada
-                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player);// avalia o tabuleiro e atruibui uma pontuação de acorod com o indicado na função pont_bot()
+                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard);         // copia o board para um board2 onde vai simular a jogada do oponenete
+                    play(bot[k].segbot[l].seg_bboard,player2,i,j);               // simula a jogada
+                    bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player);         // avalia o tabuleiro e atruibui uma pontuação de acorod com o indicado na função pont_bot()
                     l++;
                 }  
             }
         }
-        bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;//copia o maior valor de pontos do array bot[k].segbot.pontos para bot[k].pontos assim guadamos o melhor outcome da jogada de indice k
+        bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;         //copia o maior valor de pontos do array bot[k].segbot.pontos para bot[k].pontos assim guadamos o melhor outcome da jogada de indice k
     }
 }
 
@@ -352,7 +361,7 @@ for (int i = 1; i < 9; i++)
             if ( board[i][j]== 'q')               // quando encontrar uma jogada possivel o bot simula a jogada, toda no mesmo indice do array bot[] para podermos analizar tudo a partir do indice
             { 
                 copy_board(bot[k].bboard,board);  // 1º copia o board para um array de tamanho igual na posição k do array de strucks
-                play(bot[k].bboard,player,i,j,0); // 2º simula a jogada nesse mesmo array para n alterar o tabuleiro de jogo
+                play(bot[k].bboard,player,i,j); // 2º simula a jogada nesse mesmo array para n alterar o tabuleiro de jogo
                 bot[k].coluna_bot=j;              // guarda a coluna da jogada na struck
                 bot[k].linha_bot=i;               // guarda a linha da jogada na struck
                 k++;
@@ -368,16 +377,19 @@ for (int i = 1; i < 9; i++)
 }
 void bot(char board[9][9],char player){
 
-    strk_bot bot[32]; /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
+    strk_bot bot[32];   /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
     int k=0,melhor_jogada;
-    
+    char coluna_bot;
     k = bot_primeira(board,bot,32,player);
-
     bot_segunda_jogada(bot,k,player);
 
     melhor_jogada = maior(bot,k);
 
-    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot,2);//joga a jogada que obteve a melhor pontuação de tabuleiro
+    coluna_bot = int_decod(bot[melhor_jogada].coluna_bot);
+
+    printf("My move: %d%c\n\n",bot[melhor_jogada].linha_bot,coluna_bot);
+    
+    play(board,player,bot[melhor_jogada].linha_bot,bot[melhor_jogada].coluna_bot);//joga a jogada que obteve a melhor pontuação de tabuleiro
     
 
 }
