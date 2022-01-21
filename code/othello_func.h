@@ -8,7 +8,7 @@ typedef struct
     int pontos;
     char bboard[9][9];
     int linha_bot,coluna_bot;
-    seg_bot segbot[32];
+    seg_bot segbot[64];
 } strk_bot;
 
 void print_board(char tboard[9][9]);

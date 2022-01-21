@@ -469,7 +469,7 @@ void copy_board(char bboard[9][9],char board[9][9]){
  // indice em que o inteiro bot[].pontos é maior, inteiro
 //#######################################################
 
-int maior(strk_bot bot[32],int sz){
+int maior(strk_bot bot[],int sz){
 
     int maior=bot[0].pontos;
     int indice_maior=0;
@@ -496,7 +496,7 @@ int maior(strk_bot bot[32],int sz){
  // indice em que o inteiro segundo_bot[].pontos é maior, inteiro
 //#######################################################
 
-int maior_bot2(seg_bot segundo_bot[32],int sz){
+int maior_bot2(seg_bot segundo_bot[],int sz){
     
     int max=segundo_bot[0].pontos,indice=0;
     
@@ -559,7 +559,7 @@ int pont_bot(char   board[9][9],char player){
 //#######################################################
 
     
-void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simula todas as jogadas para a ronda seguinte a partir de cada jogada do bot 
+void bot_segunda_jogada(strk_bot bot[],int sz,char player)// função que simula todas as jogadas para a ronda seguinte a partir de cada jogada do bot 
 {
     
     char player2 = p2(player);
@@ -630,7 +630,7 @@ for (int i = 1; i < 9; i++)
 void bot(char board[9][9],char player){
 
     strk_bot bot[32];   /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
-    int k=0,melhor_jogada;
+    int k=0,melhor_jogada=0;
     char coluna_bot;
     k = bot_primeira(board,bot,player);
     bot_segunda_jogada(bot,k,player);
