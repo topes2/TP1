@@ -15,8 +15,9 @@ int main(int argc, char** argv){
     
     printf("Othello Game\n \n");
 
-    ordem=rand()%2+1;
-    ordem=1;
+    srand(time(NULL));
+    ordem=rand()%2;
+    
     if ((argv[1]!= NULL) && (f = fopen(argv[1],"r")) != NULL){
 
         if(ordem==1){

@@ -137,7 +137,7 @@ void input(int *linha,int *col){// lê o imput do jogador
 }
 
 //#######################################################
- // fimput esta função recebe a jogada, linha e coluna, a partir de ficheiro .txt
+ // finput esta função recebe a jogada, linha e coluna, a partir de ficheiro .txt
  // Argumentos:
  // *col - coluna da jogada, ponteito para int
  // *linha - linha da jogada, ponteiro para int
@@ -149,7 +149,7 @@ void input(int *linha,int *col){// lê o imput do jogador
  // utiliza os ponteiros para devolver o valor da linha e coluna
 //#######################################################
 
-int fintput(FILE *f,int *linha, int *col){     
+int finput(FILE *f,int *linha, int *col){     
 
     char coluna;
 

@@ -41,7 +41,7 @@ int maior(strk_bot bot[64],int sz);
 
 int maior_bot2(seg_bot[20],int sz);
 
-int fintput(FILE *f,int *linha, int *col);
+int finput(FILE *f,int *linha, int *col);
 
 int char_decod(char coluna);
 
@@ -54,5 +54,7 @@ char int_decod(int coluna);
 void end_game(char board[9][9], char player);
 
 void player_turn(char board[9][9],int turn);
+
+void fplayer_turn(FILE *f,char board[9][9],int turn);
 
 void bot_turn(char board[9][9],int turn);
