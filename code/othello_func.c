@@ -490,10 +490,10 @@ int maior(strk_bot bot[32],int sz){
  //
  // Argumentos:
  // segundo_bot - struckt que guarda as jogadas possiveis do adversário do bot depois da jogada do mesmo, array de seg_bot
- // sz - tamanho array do array a ser utilizado, int      
+ // sz - tamanho do array a ser utilizado, int      
  //
  // valor de retorno:
- // indice em que o inteiro bot[].pontos é maior, inteiro
+ // indice em que o inteiro segundo_bot[].pontos é maior, inteiro
 //#######################################################
 
 int maior_bot2(seg_bot segundo_bot[32],int sz){
@@ -509,9 +509,18 @@ int maior_bot2(seg_bot segundo_bot[32],int sz){
     return indice;     
 }
 
-//################################################################################################################################
+//#######################################################
+ // pont_bot função que lê um tabuleiro e atribui uma 
+ // pontuação de acordo com os parametros 
+ //
+ // Argumentos:
+ // board - tabuleiro de jogo, array de char
+ // player - symbolo do jogador, char   
+ //
+ // valor de retorno:
+ // pontuação atribuida á configuração do tabuleiro de jogo, inteiro
+//#######################################################
 
-//################################################################################################################################
 
 int pont_bot(char   board[9][9],char player){
     char player2= p2(player);
@@ -535,9 +544,19 @@ int pont_bot(char   board[9][9],char player){
     return pontos;
 }
 
-//################################################################################################################################
-
-//################################################################################################################################
+//#######################################################
+ // bot_segunda_jogada função que simula todas as jogadas possiveis para 
+ // a ronda seguinte a partir de cada jogada do bot  
+ //
+ // Argumentos:
+ // bot - struckt com todas as informações necessarias do bot, array de strk_bot
+ // player - symbolo do jogador, char   
+ // sz - tamanho do array a ser utilizado, int   
+ //
+ // valor de retorno:
+ // void;
+ // altera diretamente o bot[]
+//#######################################################
 
     
 void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simula todas as jogadas para a ronda seguinte a partir de cada jogada do bot 
@@ -551,8 +570,8 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simu
             for (int j = 1; j < 9; j++){
                 if ( bot[k].bboard[i][j] == 'q')            //encontra uma jogada possivel do oponente
                 {
-                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard);         // copia o board para um board2 onde vai simular a jogada do oponenete
-                    play(bot[k].segbot[l].seg_bboard,player2,i,j);                 // simula a jogada
+                    copy_board(bot[k].segbot[l].seg_bboard,bot[k].bboard);                          // copia o board para um board2 onde vai simular a jogada do oponenete
+                    play(bot[k].segbot[l].seg_bboard,player2,i,j);                                  // simula a jogada
                     bot[k].segbot[l].pontos = pont_bot(bot[k].segbot[l].seg_bboard,player);         // avalia o tabuleiro e atruibui uma pontuação de acorod com o indicado na função pont_bot()
                     l++;
                 }  
@@ -562,11 +581,20 @@ void bot_segunda_jogada(strk_bot bot[32],int sz,char player)// função que simu
     }
 }
 
-//################################################################################################################################
+//#######################################################
+ // bot_primeira função que simula todas as jogadas posiiveis
+ // do bot 
+ //
+ // Argumentos:
+ // bot - struckt com todas as informações necessarias do bot, array de strk_bot
+ // board - tabuleiro de jogo, array de char
+ // player - symbolo do jogador, char   
+ //
+ // valor de retorno:
+ // número de jogadas que o bot fez, inteiro
+//#######################################################
 
-//################################################################################################################################
-
-int bot_primeira(char board[9][9], strk_bot bot[], int szmax,char player){
+int bot_primeira(char board[9][9], strk_bot bot[],char player){
 
 int k=0;
 
@@ -580,10 +608,6 @@ for (int i = 1; i < 9; i++)
                 bot[k].coluna_bot=j;              // guarda a coluna da jogada na struck
                 bot[k].linha_bot=i;               // guarda a linha da jogada na struck
                 k++;
-                if(k>= szmax){
-                    printf("O valor do k excedeu o valor maximo");
-                    return k;
-                }
             }  
         }
 
@@ -591,16 +615,24 @@ for (int i = 1; i < 9; i++)
 
 }
 
-//################################################################################################################################
-
-//################################################################################################################################
+//#######################################################
+ // bot função que evoca todas as necessárias ao funcionamento do bot
+ //
+ // Argumentos: 
+ // board - tabuleiro de jogo, array de char
+ // player - symbolo do jogador, char   
+ //
+ // valor de retorno:
+ // void
+ // altera diretamente o tabuleiro 
+//#######################################################
 
 void bot(char board[9][9],char player){
 
     strk_bot bot[32];   /* variavel que vai guardar as informações para o bot poder escolher a melhor jogada */
     int k=0,melhor_jogada;
     char coluna_bot;
-    k = bot_primeira(board,bot,32,player);
+    k = bot_primeira(board,bot,player);
     bot_segunda_jogada(bot,k,player);
 
     melhor_jogada = maior(bot,k);

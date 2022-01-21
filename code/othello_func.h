@@ -45,7 +45,7 @@ int finput(FILE *f,int *linha, int *col);
 
 int char_decod(char coluna);
 
-int bot_primeira(char board[9][9], strk_bot bot[], int szmax,char player);
+int bot_primeira(char board[9][9], strk_bot bot[],char player);
 
 void convert_board(char bboard[9][9],char board[9][9]);
 
