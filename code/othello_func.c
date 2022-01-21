@@ -561,10 +561,12 @@ int pont_bot(char   board[9][9],char player){
     
 void bot_segunda_jogada(strk_bot bot[],int sz,char player)// função que simula todas as jogadas para a ronda seguinte a partir de cada jogada do bot 
 {
-    
+    int l;
     char player2 = p2(player);
 
-    for (int l = 0,k = 0; k < sz; k++){                     // cada valor de k é uma possivel jogada do bot, vamos ver como o oponente pode responder
+    for (int k = 0; k < sz; k++){                     // cada valor de k é uma possivel jogada do bot, vamos ver como o oponente pode responder
+        l=0;
+        //printf("%d",l);
         next(bot[k].bboard,player2);                        // precessamos o board para mostrar as jogadas possiveis para o oponente do bot
         for (int i = 1; i < 9; i++){                        // loop para correr o board 
             for (int j = 1; j < 9; j++){
@@ -577,6 +579,7 @@ void bot_segunda_jogada(strk_bot bot[],int sz,char player)// função que simula
                 }  
             }
         }
+        //printf("%d\n",l);
         bot[k].pontos = bot[k].segbot[maior_bot2(bot[k].segbot,l)].pontos;         //copia o maior valor de pontos do array bot[k].segbot.pontos para bot[k].pontos assim guadamos o melhor outcome da jogada de indice k
     }
 }
@@ -597,7 +600,7 @@ void bot_segunda_jogada(strk_bot bot[],int sz,char player)// função que simula
 int bot_primeira(char board[9][9], strk_bot bot[],char player){
 
 int k=0;
-
+//printf("%d\n",k);
 for (int i = 1; i < 9; i++)
         for (int j = 1; j < 9; j++)               // loop para correr o board 
         {   
@@ -607,10 +610,11 @@ for (int i = 1; i < 9; i++)
                 play(bot[k].bboard,player,i,j);   // 2º simula a jogada nesse mesmo array para n alterar o tabuleiro de jogo
                 bot[k].coluna_bot=j;              // guarda a coluna da jogada na struck
                 bot[k].linha_bot=i;               // guarda a linha da jogada na struck
+                //printf("%d %d\n",bot[k].linha_bot,bot[k].coluna_bot );
                 k++;
             }  
         }
-
+    //printf("%d\n",k);
     return k;
 
 }
