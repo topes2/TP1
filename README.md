@@ -5,7 +5,7 @@ O trabalho final da cadeira de P1 dos alunos Andre e Diogo;
 
 ```bash
 /gcc -o othello othello_fun.c othello.c
-´´´
+```
 
 ## Usage
 
