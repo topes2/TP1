@@ -1,6 +1,8 @@
 # TP1
 O trabalho final da cadeira de P1 dos alunos Andre e Diogo;
+
 ## Compiling
+
 ```bash
 /gcc -o othello othello_fun.c othello.c
 ´´´
